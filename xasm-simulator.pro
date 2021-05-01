@@ -23,7 +23,8 @@ SOURCES += \
     codeeditor.cpp \
     linenumberarea.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    xasmhighlighter.cpp
 
 HEADERS += \
     assembler/XASMGenerator.h \
@@ -35,7 +36,8 @@ HEADERS += \
     assembler/verifier.h \
     codeeditor.h \
     linenumberarea.h \
-    mainwindow.h
+    mainwindow.h \
+    xasmhighlighter.h
 
 FORMS += \
     mainwindow.ui
