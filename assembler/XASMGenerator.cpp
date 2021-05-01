@@ -10,7 +10,7 @@
 #include "XASMGenerator.h"
 #include "encoding.h"
 
-XASMGenerator::XASMGenerator(Lexer &lexer, Labels &labels) : XASMParser{lexer}, labels{labels}, pc{0} {}
+XASMGenerator::XASMGenerator(Lexer &lexer, Labels &labels) : XASMParser{lexer}, pc {0}, labels{labels} {}
 
 void XASMGenerator::generate() {
         try {

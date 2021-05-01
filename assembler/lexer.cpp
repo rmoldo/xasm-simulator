@@ -131,7 +131,7 @@ Token Lexer::nextToken() {
 }
 
 void Lexer::nextChar() {
-        if (position >= source.size())
+        if (position >= (int)source.size())
                 currentChar = XASMEOFConstant;
         else
                 currentChar = source[position];
@@ -141,7 +141,7 @@ void Lexer::nextChar() {
 
 char Lexer::peek() {
         // Check if peek is out of size
-        if (position + 1 >= source.size())
+        if (position + 1 >= (int)source.size())
                 return 0;
 
         return source[position + 1];

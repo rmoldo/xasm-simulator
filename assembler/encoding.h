@@ -9,6 +9,10 @@
 #ifndef XASM_ENCODING_H
 #define XASM_ENCODING_H
 
+#include <map>
+#include <string>
+#include "defs.h"
+
 std::map<std::string, u16> instructions = {{"mov",      0x0000},
                                            {"add",      0x1000},
                                            {"sub",      0x2000},

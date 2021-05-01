@@ -5,6 +5,8 @@
 #ifndef XASM_TOKEN_H
 #define XASM_TOKEN_H
 
+#include <string>
+
 enum class TokenType {
     Instruction = 0x0,
     Number,
