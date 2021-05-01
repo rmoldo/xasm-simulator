@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QPlainTextEdit>
 
+#include "xasmhighlighter.h"
+
 class CodeEditor : public QPlainTextEdit
 {
     Q_OBJECT
@@ -27,6 +29,7 @@ public slots:
 
 private:
     QWidget *lineNumberArea;
+    XASMHighlighter *highlighter;
 };
 
 #endif // CODEEDITOR_H

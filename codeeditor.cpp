@@ -24,6 +24,8 @@ CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
 
     this->setFont(font);
 
+    highlighter = new XASMHighlighter(this->document());
+
     updateLineNumberAreaWidth(0);
 }
 
