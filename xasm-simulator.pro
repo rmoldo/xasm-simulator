@@ -20,6 +20,8 @@ SOURCES += \
     assembler/lexer.cpp \
     assembler/parser.cpp \
     assembler/verifier.cpp \
+    codeeditor.cpp \
+    linenumberarea.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -31,6 +33,8 @@ HEADERS += \
     assembler/parser.h \
     assembler/token.h \
     assembler/verifier.h \
+    codeeditor.h \
+    linenumberarea.h \
     mainwindow.h
 
 FORMS += \
