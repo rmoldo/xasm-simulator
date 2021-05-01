@@ -17,6 +17,13 @@ CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
 
     this->setReadOnly(true);
 
+    QFont font;
+    font.setFamily("Courier");
+    font.setFixedPitch(true);
+    font.setPointSize(10);
+
+    this->setFont(font);
+
     updateLineNumberAreaWidth(0);
 }
 
