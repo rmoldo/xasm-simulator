@@ -2,6 +2,9 @@
 
 #include <QPainter>
 #include <QTextBlock>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QTextStream>
 
 #include "linenumberarea.h"
 
@@ -12,7 +15,31 @@ CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
     connect(this, &CodeEditor::blockCountChanged, this, &CodeEditor::updateLineNumberAreaWidth);
     connect(this, &CodeEditor::updateRequest, this, &CodeEditor::updateLineNumberArea);
 
+    this->setReadOnly(true);
+
     updateLineNumberAreaWidth(0);
+}
+
+void CodeEditor::loadFile(const QString &fileName) {
+    QFile file {fileName};
+
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        QMessageBox::warning(this, tr("Application"),
+                                    tr("Cannot read file %1:\n%2.")
+                                    .arg(QDir::toNativeSeparators(fileName), file.errorString()));
+        return;
+    }
+
+    QTextStream in(&file);
+
+    this->setPlainText(in.readAll());
+}
+
+void CodeEditor::open() {
+    QString fileName = QFileDialog::getOpenFileName(this);
+
+    if (!fileName.isEmpty())
+        loadFile(fileName);
 }
 
 int CodeEditor::lineNumberAreaWidth()
