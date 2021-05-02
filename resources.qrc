@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/rec">
+        <file>resources/icons/folder.svg</file>
+        <file>resources/icons/quit.svg</file>
+    </qresource>
+</RCC>

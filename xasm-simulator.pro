@@ -16,11 +16,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    assembler/XASMGenerator.cpp \
+    assembler/lexer.cpp \
+    assembler/parser.cpp \
+    assembler/verifier.cpp \
+    codeeditor.cpp \
+    linenumberarea.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    xasmhighlighter.cpp
 
 HEADERS += \
-    mainwindow.h
+    assembler/XASMGenerator.h \
+    assembler/defs.h \
+    assembler/encoding.h \
+    assembler/lexer.h \
+    assembler/parser.h \
+    assembler/token.h \
+    assembler/verifier.h \
+    codeeditor.h \
+    linenumberarea.h \
+    mainwindow.h \
+    xasmhighlighter.h
 
 FORMS += \
     mainwindow.ui
@@ -29,3 +46,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resources.qrc
