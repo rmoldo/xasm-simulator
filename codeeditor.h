@@ -13,8 +13,14 @@ class CodeEditor : public QPlainTextEdit
 public:
     CodeEditor(QWidget *parent = nullptr);
 
+    // lineNumberAreaPaintEvent is called from LineNumberArea whenever it
+    // receives a paint event
     void lineNumberAreaPaintEvent(QPaintEvent *event);
+
+    // lineNumberAreaWidth calculates the width of the LineNumberArea widget
     int  lineNumberAreaWidth();
+
+    //
     void loadFile(const QString &fileName);
 
 protected:
