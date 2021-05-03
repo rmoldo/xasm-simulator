@@ -21,6 +21,7 @@ SOURCES += \
     assembler/parser.cpp \
     assembler/verifier.cpp \
     codeeditor.cpp \
+    cpuwindow.cpp \
     linenumberarea.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -37,6 +38,7 @@ HEADERS += \
     assembler/token.h \
     assembler/verifier.h \
     codeeditor.h \
+    cpuwindow.h \
     linenumberarea.h \
     mainwindow.h \
     memoryviewer.h \
@@ -44,6 +46,7 @@ HEADERS += \
     xasmhighlighter.h
 
 FORMS += \
+    cpuwindow.ui \
     mainwindow.ui \
     memoryviewerdialog.ui
 
