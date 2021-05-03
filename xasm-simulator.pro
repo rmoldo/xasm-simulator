@@ -24,6 +24,8 @@ SOURCES += \
     linenumberarea.cpp \
     main.cpp \
     mainwindow.cpp \
+    memoryviewer.cpp \
+    memoryviewerdialog.cpp \
     xasmhighlighter.cpp
 
 HEADERS += \
@@ -37,10 +39,13 @@ HEADERS += \
     codeeditor.h \
     linenumberarea.h \
     mainwindow.h \
+    memoryviewer.h \
+    memoryviewerdialog.h \
     xasmhighlighter.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    memoryviewerdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
