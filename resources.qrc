@@ -2,5 +2,8 @@
     <qresource prefix="/rec">
         <file>resources/icons/folder.svg</file>
         <file>resources/icons/quit.svg</file>
+        <file>resources/icons/binary-code.svg</file>
+        <file>resources/icons/cpu.svg</file>
+        <file>resources/icons/ram.svg</file>
     </qresource>
 </RCC>
