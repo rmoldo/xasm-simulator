@@ -2,8 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "memoryviewerdialog.h"
 
+#include "memoryviewerdialog.h"
+#include "cpuwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,5 +23,6 @@ private:
 
     Ui::MainWindow *ui;
     MemoryViewerDialog *memoryViewerDialog;
+    CPUwindow *cpuWindow;
 };
 #endif // MAINWINDOW_H
