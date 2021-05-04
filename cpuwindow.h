@@ -2,6 +2,7 @@
 #define CPUWINDOW_H
 
 #include <QDialog>
+#include <QPainter>
 
 namespace Ui {
 class CPUwindow;
@@ -14,6 +15,8 @@ class CPUwindow : public QDialog
 public:
     explicit CPUwindow(QWidget *parent = nullptr);
     ~CPUwindow();
+
+    virtual void paintEvent(QPaintEvent * event);
 
 private:
     Ui::CPUwindow *ui;
