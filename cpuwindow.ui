@@ -19,7 +19,7 @@
      <x>1090</x>
      <y>770</y>
      <width>81</width>
-     <height>20</height>
+     <height>36</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -42,7 +42,7 @@
    <property name="geometry">
     <rect>
      <x>1110</x>
-     <y>749</y>
+     <y>750</y>
      <width>41</width>
      <height>20</height>
     </rect>
@@ -58,9 +58,9 @@
    <property name="geometry">
     <rect>
      <x>1090</x>
-     <y>651</y>
+     <y>650</y>
      <width>81</width>
-     <height>20</height>
+     <height>36</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -85,7 +85,7 @@
      <x>1090</x>
      <y>530</y>
      <width>81</width>
-     <height>20</height>
+     <height>36</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -124,9 +124,9 @@
    <property name="geometry">
     <rect>
      <x>1090</x>
-     <y>591</y>
+     <y>590</y>
      <width>81</width>
-     <height>20</height>
+     <height>36</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -149,7 +149,7 @@
    <property name="geometry">
     <rect>
      <x>1110</x>
-     <y>689</y>
+     <y>690</y>
      <width>41</width>
      <height>20</height>
     </rect>
@@ -167,7 +167,7 @@
      <x>1090</x>
      <y>710</y>
      <width>81</width>
-     <height>20</height>
+     <height>36</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -206,9 +206,9 @@
    <property name="geometry">
     <rect>
      <x>1090</x>
-     <y>471</y>
+     <y>470</y>
      <width>81</width>
-     <height>20</height>
+     <height>36</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -231,7 +231,7 @@
    <property name="geometry">
     <rect>
      <x>1110</x>
-     <y>509</y>
+     <y>510</y>
      <width>41</width>
      <height>20</height>
     </rect>
@@ -423,7 +423,7 @@
      <x>1030</x>
      <y>310</y>
      <width>141</width>
-     <height>91</height>
+     <height>90</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -473,7 +473,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="ALUlabel">
    <property name="geometry">
     <rect>
      <x>1090</x>
@@ -486,6 +486,465 @@
     <string>A
 L
 U</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="IRview">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>830</y>
+     <width>81</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="IRlabel">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>810</y>
+     <width>41</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>IR</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="Line" name="SPlineR">
+   <property name="geometry">
+    <rect>
+     <x>1170</x>
+     <y>470</y>
+     <width>141</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="TlineR">
+   <property name="geometry">
+    <rect>
+     <x>1170</x>
+     <y>530</y>
+     <width>141</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="PClineR">
+   <property name="geometry">
+    <rect>
+     <x>1170</x>
+     <y>590</y>
+     <width>141</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="IVRlineR">
+   <property name="geometry">
+    <rect>
+     <x>1170</x>
+     <y>650</y>
+     <width>141</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="ADRlineR">
+   <property name="geometry">
+    <rect>
+     <x>1170</x>
+     <y>710</y>
+     <width>141</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="MDRlineD">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>770</y>
+     <width>261</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="MDRlineD_2">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>790</y>
+     <width>481</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="ADRlineD">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>710</y>
+     <width>261</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="ADRlineS">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>730</y>
+     <width>481</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="IVRlineD">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>650</y>
+     <width>261</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="IVRlineS">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>670</y>
+     <width>481</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="PClineD">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>590</y>
+     <width>261</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="PClineS">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>610</y>
+     <width>481</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="TlineD">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>530</y>
+     <width>261</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="TlineS">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>550</y>
+     <width>481</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="SPlineD">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>470</y>
+     <width>261</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="SPlineS">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>490</y>
+     <width>481</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="GRlineR">
+   <property name="geometry">
+    <rect>
+     <x>1170</x>
+     <y>310</y>
+     <width>141</width>
+     <height>90</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="GRlineD">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>310</y>
+     <width>201</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="GRlineS">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>355</y>
+     <width>421</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="IRlineD">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>848</y>
+     <width>511</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="IRlineS">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>830</y>
+     <width>281</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
    </property>
   </widget>
   <zorder>MDRview</zorder>
@@ -510,7 +969,31 @@ U</string>
   <zorder>RGview</zorder>
   <zorder>DBUSlabel</zorder>
   <zorder>RGview_2</zorder>
-  <zorder>label</zorder>
+  <zorder>ALUlabel</zorder>
+  <zorder>IRview</zorder>
+  <zorder>IRlabel</zorder>
+  <zorder>SPlineR</zorder>
+  <zorder>TlineR</zorder>
+  <zorder>PClineR</zorder>
+  <zorder>IVRlineR</zorder>
+  <zorder>ADRlineR</zorder>
+  <zorder>MDRlineD</zorder>
+  <zorder>MDRlineD_2</zorder>
+  <zorder>ADRlineD</zorder>
+  <zorder>ADRlineS</zorder>
+  <zorder>IVRlineD</zorder>
+  <zorder>IVRlineS</zorder>
+  <zorder>PClineD</zorder>
+  <zorder>PClineS</zorder>
+  <zorder>TlineD</zorder>
+  <zorder>TlineS</zorder>
+  <zorder>SPlineD</zorder>
+  <zorder>SPlineS</zorder>
+  <zorder>GRlineR</zorder>
+  <zorder>GRlineD</zorder>
+  <zorder>GRlineS</zorder>
+  <zorder>IRlineD</zorder>
+  <zorder>IRlineS</zorder>
  </widget>
  <resources/>
  <connections/>
