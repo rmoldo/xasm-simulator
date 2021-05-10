@@ -6,6 +6,7 @@ CPUwindow::CPUwindow(QWidget *parent) :
     ui(new Ui::CPUwindow)
 {
     ui->setupUi(this);
+    QWidget::setFixedSize(this->size());
 }
 
 CPUwindow::~CPUwindow()

@@ -947,6 +947,63 @@ U</string>
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
+  <widget class="Line" name="DlineALU">
+   <property name="geometry">
+    <rect>
+     <x>829</x>
+     <y>80</y>
+     <width>221</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="SlineALU">
+   <property name="geometry">
+    <rect>
+     <x>600</x>
+     <y>160</y>
+     <width>450</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="ALUlineR">
+   <property name="geometry">
+    <rect>
+     <x>1130</x>
+     <y>125</y>
+     <width>181</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
   <zorder>MDRview</zorder>
   <zorder>MDRlabel</zorder>
   <zorder>IVRview</zorder>
@@ -994,6 +1051,9 @@ U</string>
   <zorder>GRlineS</zorder>
   <zorder>IRlineD</zorder>
   <zorder>IRlineS</zorder>
+  <zorder>DlineALU</zorder>
+  <zorder>SlineALU</zorder>
+  <zorder>ALUlineR</zorder>
  </widget>
  <resources/>
  <connections/>
