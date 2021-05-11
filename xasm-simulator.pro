@@ -21,6 +21,7 @@ SOURCES += \
     assembler/parser.cpp \
     assembler/verifier.cpp \
     codeeditor.cpp \
+    cpu.cpp \
     cpuwindow.cpp \
     linenumberarea.cpp \
     main.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     assembler/token.h \
     assembler/verifier.h \
     codeeditor.h \
+    cpu.h \
     cpuwindow.h \
     linenumberarea.h \
     mainwindow.h \
