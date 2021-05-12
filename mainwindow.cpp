@@ -117,7 +117,7 @@ void MainWindow::createActions() {
 
             QByteArray machineCode = machineCodeFile.readAll();
 
-            cpu->setMemory(reinterpret_cast<u8 *>(machineCode.data()), machineCode.size());
+            cpu->setMachineCodeInMemory(reinterpret_cast<u8 *>(machineCode.data()), machineCode.size());
         }
         else {
             messageBox.critical(this, "Assembler Error", errors);
