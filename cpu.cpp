@@ -70,6 +70,10 @@ QString Cpu::getReason()
     return reason;
 }
 
+std::vector<u8> Cpu::getMemory() {
+    return memory;
+}
+
 void Cpu::setMemory(u8 *data, size_t size) {
     memory.insert(memory.begin(), data, data + size);
 }

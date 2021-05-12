@@ -12,6 +12,7 @@ public:
     explicit Cpu(QObject *parent = nullptr);
 
     void initializeRegisters();
+    std::vector<u8> getMemory();
 
     //// Executes next impulse
     bool advance();
