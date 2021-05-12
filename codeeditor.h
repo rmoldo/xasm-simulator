@@ -23,6 +23,8 @@ public:
     //
     void loadFile(const QString &fileName);
 
+    QString getFileName();
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
 
@@ -33,9 +35,13 @@ private slots:
 public slots:
     void open();
 
+signals:
+    void loadFinished();
+
 private:
     QWidget *lineNumberArea;
     XASMHighlighter *highlighter;
+    QString fileName;
 };
 
 #endif // CODEEDITOR_H

@@ -42,10 +42,16 @@ void CodeEditor::loadFile(const QString &fileName) {
     QTextStream in(&file);
 
     this->setPlainText(in.readAll());
+    emit loadFinished();
+}
+
+QString CodeEditor::getFileName()
+{
+    return fileName;
 }
 
 void CodeEditor::open() {
-    QString fileName = QFileDialog::getOpenFileName(this);
+    fileName = QFileDialog::getOpenFileName(this);
 
     if (!fileName.isEmpty())
         loadFile(fileName);

@@ -5,5 +5,9 @@
         <file>resources/icons/binary-code.svg</file>
         <file>resources/icons/cpu.svg</file>
         <file>resources/icons/ram.svg</file>
+        <file>resources/icons/assembler.svg</file>
+        <file>resources/assembler/xasm</file>
+        <file>resources/icons/run.svg</file>
+        <file>resources/icons/step.svg</file>
     </qresource>
 </RCC>

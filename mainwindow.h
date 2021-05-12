@@ -24,5 +24,7 @@ private:
     Ui::MainWindow *ui;
     MemoryViewerDialog *memoryViewerDialog;
     CPUwindow *cpuWindow;
+    QAction *stepAction;
+    QAction *runAction;
 };
 #endif // MAINWINDOW_H

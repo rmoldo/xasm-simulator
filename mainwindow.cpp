@@ -3,6 +3,8 @@
 
 #include <codeeditor.h>
 #include <QToolBar>
+#include <QProcess>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -25,10 +27,12 @@ void MainWindow::createActions() {
     // Menus
     QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
     QMenu *viewMenu = menuBar()->addMenu(tr("&View"));
+    QMenu *executeMenu = menuBar()->addMenu(tr("&Execute"));
 
     // Toolbars
     QToolBar *fileToolBar = addToolBar(tr("File"));
     QToolBar *viewToolBar = addToolBar(tr("View"));
+    QToolBar *executeToolBar = addToolBar(tr("Execute"));
 
     // Open file action
     QAction *openAction = new QAction(tr("&Open"), this);
@@ -52,9 +56,9 @@ void MainWindow::createActions() {
     fileMenu->addAction(quitAction);
 
     // View processor architecture action
-    QAction *viewArchitectureAction = new QAction(tr("&Architecture"), this);
+    QAction *viewArchitectureAction = new QAction(tr("Ar&chitecture"), this);
     viewArchitectureAction->setIcon(QPixmap(":/rec/resources/icons/cpu.svg"));
-    viewArchitectureAction->setShortcut(QKeySequence(tr("Ctrl+A")));
+    viewArchitectureAction->setShortcut(QKeySequence(tr("Shift+A")));
     viewArchitectureAction->setStatusTip(tr("View processor architecture"));
 
     connect(viewArchitectureAction, &QAction::triggered, this, [this]() {cpuWindow->show();});
@@ -65,7 +69,7 @@ void MainWindow::createActions() {
     // View memory action
     QAction *viewMemoryAction = new QAction(tr("&Memory"), this);
     viewMemoryAction->setIcon(QPixmap(":/rec/resources/icons/ram.svg"));
-    viewMemoryAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_M));
+    viewMemoryAction->setShortcut(QKeySequence(tr("Shift+M")));
     viewMemoryAction->setStatusTip(tr("View memory content"));
 
     connect(viewMemoryAction, &QAction::triggered, this->memoryViewerDialog,
@@ -78,4 +82,61 @@ void MainWindow::createActions() {
 
     viewMenu->addAction(viewMemoryAction);
     viewToolBar->addAction(viewMemoryAction);
+
+    // Assemble action
+    QAction *assembleAction = new QAction(tr("&Assemble"), this);
+    assembleAction->setIcon(QPixmap(":/rec/resources/icons/assembler.svg"));
+    assembleAction->setShortcut(QKeySequence(tr("Ctrl+A")));
+    assembleAction->setStatusTip(tr("Assemble the code"));
+
+    connect(this->ui->plainTextEdit, &CodeEditor::loadFinished, this, [=]() {assembleAction->setEnabled(true);});
+    connect(assembleAction, &QAction::triggered, this, [=]() {
+        QProcess process;
+        QString command("../xasm-simulator/resources/assembler/xasm ");
+        command += this->ui->plainTextEdit->getFileName();
+        process.start(command);
+        //wait forever until finished
+        process.waitForFinished(-1);
+
+        QString output = process.readAllStandardOutput();
+        QString errors = process.readAllStandardError();
+
+        QMessageBox messageBox;
+        if (output.endsWith("generated successfully\n")) {
+            messageBox.information(this, "Success", "Assembled successfully!\nNow you can start the simulation.");
+            stepAction->setEnabled(true);
+            runAction->setEnabled(true);
+        }
+        else {
+            messageBox.critical(this, "Assembler Error", errors);
+        }
+    });
+
+    assembleAction->setEnabled(false);
+    executeMenu->addAction(assembleAction);
+    executeToolBar->addAction(assembleAction);
+
+    // Step action
+    stepAction = new QAction(tr("S&tep"), this);
+    stepAction->setIcon(QPixmap(":/rec/resources/icons/step.svg"));
+    stepAction->setShortcut(QKeySequence(tr("F7")));
+    stepAction->setStatusTip(tr("Execute one impulse"));
+
+    connect(stepAction, &QAction::triggered, this, [=]() {/*nothing atm*/});
+
+    stepAction->setEnabled(false);
+    executeMenu->addAction(stepAction);
+    executeToolBar->addAction(stepAction);
+
+    // Run action
+    runAction = new QAction(tr("&Run"), this);
+    runAction->setIcon(QPixmap(":/rec/resources/icons/run.svg"));
+    runAction->setShortcut(QKeySequence(tr("F8")));
+    runAction->setStatusTip(tr("Run the simulation"));
+
+    connect(runAction, &QAction::triggered, this, [=]() {/*nothing atm*/});
+
+    runAction->setEnabled(false);
+    executeMenu->addAction(runAction);
+    executeToolBar->addAction(runAction);
 }
