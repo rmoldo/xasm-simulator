@@ -102,7 +102,7 @@ void MainWindow::createActions() {
         QString errors = process.readAllStandardError();
 
         QMessageBox messageBox;
-        if (output.startsWith("Parsed successfully")) {
+        if (output.endsWith("generated successfully\n")) {
             messageBox.information(this, "Success", "Assembled successfully!\nNow you can start the simulation.");
             stepAction->setEnabled(true);
             runAction->setEnabled(true);
