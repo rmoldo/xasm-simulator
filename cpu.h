@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "assembler/defs.h"
+#include <cgb.h>
 
 class Cpu : public QObject
 {
@@ -12,6 +13,12 @@ public:
 
     void initializeRegisters();
 
+    //// Executes next impulse
+    bool advance();
+
+    //// Contains the reason for halting
+    QString getReason();
+
 public slots:
     void setMemory(u8 *data, size_t size);
 
@@ -19,6 +26,13 @@ signals:
     void memoryChanged();
 
 private:
+    // Phases
+    void instructionFetch();
+    void operandFetch();
+    void execute();
+    void interrupt();
+
+
     /* Memory */
     std::vector<u8> memory;
 
@@ -41,7 +55,14 @@ private:
     u16 IVR; // Interrupt Vector Register
 
     /* Command generator block */
-    // TODO(Silvan) add bgc when ready
+    CGB *cgb;
+
+    /* Conditions */
+    bool cil;
+    bool iop;
+
+    bool halt;
+    QString reason;
 };
 
 #endif // CPU_H
