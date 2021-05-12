@@ -31,6 +31,10 @@ void Cpu::initializeRegisters()
     memset(R, 0, sizeof(R));
 }
 
+std::vector<u8> Cpu::getMemory() {
+    return memory;
+}
+
 void Cpu::setMemory(u8 *data, size_t size) {
     memory.insert(memory.begin(), data, data + size);
 }

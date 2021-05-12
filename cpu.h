@@ -11,6 +11,7 @@ public:
     explicit Cpu(QObject *parent = nullptr);
 
     void initializeRegisters();
+    std::vector<u8> getMemory();
 
 public slots:
     void setMemory(u8 *data, size_t size);

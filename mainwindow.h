@@ -5,6 +5,7 @@
 
 #include "memoryviewerdialog.h"
 #include "cpuwindow.h"
+#include "cpu.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,5 +27,6 @@ private:
     CPUwindow *cpuWindow;
     QAction *stepAction;
     QAction *runAction;
+    Cpu *cpu;
 };
 #endif // MAINWINDOW_H
