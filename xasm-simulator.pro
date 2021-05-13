@@ -20,6 +20,7 @@ SOURCES += \
     assembler/lexer.cpp \
     assembler/parser.cpp \
     assembler/verifier.cpp \
+    cgb.cpp \
     codeeditor.cpp \
     cpu.cpp \
     cpuwindow.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     assembler/parser.h \
     assembler/token.h \
     assembler/verifier.h \
+    cgb.h \
     codeeditor.h \
     cpu.h \
     cpuwindow.h \

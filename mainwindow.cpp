@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     createActions();
     cpuWindow = new CPUwindow(this);
+    cpu = new Cpu(this);
 }
 
 MainWindow::~MainWindow()
@@ -103,6 +104,8 @@ void MainWindow::createActions() {
 
         QMessageBox messageBox;
         if (output.endsWith("generated successfully\n")) {
+            //reinitialize cpu if reassembled
+            cpu = new Cpu(this);
             messageBox.information(this, "Success", "Assembled successfully!\nNow you can start the simulation.");
             stepAction->setEnabled(true);
             runAction->setEnabled(true);
@@ -122,7 +125,14 @@ void MainWindow::createActions() {
     stepAction->setShortcut(QKeySequence(tr("F7")));
     stepAction->setStatusTip(tr("Execute one impulse"));
 
-    connect(stepAction, &QAction::triggered, this, [=]() {/*nothing atm*/});
+    connect(stepAction, &QAction::triggered, this, [=]() {
+        if(!cpu->advance()) {
+            QMessageBox messageBox;
+            messageBox.information(this, "Processor halted", cpu->getReason());
+            stepAction->setEnabled(false);
+            runAction->setEnabled(false);
+        }
+    });
 
     stepAction->setEnabled(false);
     executeMenu->addAction(stepAction);
@@ -134,7 +144,14 @@ void MainWindow::createActions() {
     runAction->setShortcut(QKeySequence(tr("F8")));
     runAction->setStatusTip(tr("Run the simulation"));
 
-    connect(runAction, &QAction::triggered, this, [=]() {/*nothing atm*/});
+    connect(runAction, &QAction::triggered, this, [=]() {
+        while(cpu->advance());
+
+        QMessageBox messageBox;
+        messageBox.information(this, "Processor halted", cpu->getReason());
+        stepAction->setEnabled(false);
+        runAction->setEnabled(false);
+    });
 
     runAction->setEnabled(false);
     executeMenu->addAction(runAction);
