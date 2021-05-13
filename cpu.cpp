@@ -97,10 +97,10 @@ void Cpu::instructionFetch()
         }
 
         if(iop) {
-            cgb->nextPhase(Phase::OF);
+            cgb->setPhase(Phase::OF);
         }
         else {
-            cgb->nextPhase(Phase::EX);
+            cgb->setPhase(Phase::EX);
         }
 
         std::cout<<"IF I3" <<std::endl;
@@ -116,7 +116,7 @@ void Cpu::instructionFetch()
 
 void Cpu::operandFetch()
 {
-    switch(cgb->getImpulse()) {
+    switch(cgb->getAndIncrementImpulse()) {
     case 1:
         /*
             AM: PdIR[OP], SBUS, PdALU, PmM, TEX
@@ -129,7 +129,7 @@ void Cpu::operandFetch()
 
     case 2:
         /* RD, PdMEM, PmM */
-        cgb->nextPhase(Phase::EX);
+        cgb->setPhase(Phase::EX);
         std::cout<<"OF I2" <<std::endl;
         break;
 
