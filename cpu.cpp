@@ -77,7 +77,7 @@ void Cpu::setMemory(u8 *data, size_t size) {
 #include<iostream>
 void Cpu::instructionFetch()
 {
-    switch(cgb->getImpulse()) {
+    switch(cgb->getAndIncrementImpulse()) {
     case 1:
         /* PdPC, DBUS,PdALU, PmADR */
         std::cout<<"IF I1" <<std::endl;

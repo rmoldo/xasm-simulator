@@ -11,13 +11,13 @@ Phase CGB::getPhase()
     return crtPhase;
 }
 
-void CGB::nextPhase(Phase phase)
+void CGB::setPhase(Phase phase)
 {
     crtPhase = phase;
     crtImpulse = 1;
 }
 
-u8 CGB::getImpulse()
+u8 CGB::getAndIncrementImpulse()
 {
     return crtImpulse++;
 }

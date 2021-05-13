@@ -14,8 +14,8 @@ public:
     explicit CGB(QObject *parent = nullptr);
 
     Phase getPhase();
-    void nextPhase(Phase phase);
-    u8 getImpulse();
+    void setPhase(Phase phase);
+    u8 getAndIncrementImpulse();
 
 signals:
 
