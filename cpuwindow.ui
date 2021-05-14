@@ -476,16 +476,17 @@
   <widget class="QLabel" name="ALUlabel">
    <property name="geometry">
     <rect>
-     <x>1090</x>
+     <x>1065</x>
      <y>120</y>
-     <width>16</width>
+     <width>61</width>
      <height>61</height>
     </rect>
    </property>
    <property name="text">
-    <string>A
-L
-U</string>
+    <string>ALU</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="IRview">

@@ -19,11 +19,21 @@ public:
     //// Contains the reason for halting
     QString getReason();
 
+    //// Resets all cpuwindow activated components
+    void resetActivatedSignals();
+
 public slots:
     void setMemory(u8 *data, size_t size);
 
 signals:
     void memoryChanged();
+
+    // Commands
+    void PdPCD(bool active);
+    void ALU(bool active, QString operation = "ALU");
+    void PdALU(bool active);
+    void PmADR(bool active, u16 value = 0);
+
 
 private:
     // Phases
@@ -31,7 +41,6 @@ private:
     void operandFetch();
     void execute();
     void interrupt();
-
 
     /* Memory */
     std::vector<u8> memory;

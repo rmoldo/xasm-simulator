@@ -41,6 +41,7 @@ void Cpu::initializeRegisters()
 
 bool Cpu::advance()
 {
+    resetActivatedSignals();
     switch(cgb->getPhase()) {
     case Phase::IF:
         instructionFetch();
@@ -80,6 +81,13 @@ void Cpu::instructionFetch()
     switch(cgb->getAndIncrementImpulse()) {
     case 1:
         /* PdPC, DBUS,PdALU, PmADR */
+        DBUS = PC;
+        emit PdPCD(true);
+        emit ALU(true, "DBUS");
+        RBUS = DBUS;
+        emit PdALU(true);
+        ADR = RBUS;
+        emit PmADR(true, ADR);
         std::cout<<"IF I1" <<std::endl;
         break;
 
@@ -151,5 +159,13 @@ void Cpu::interrupt()
 {
     std::cout<<"INT I1" <<std::endl;
     return;
+}
+
+void Cpu::resetActivatedSignals()
+{
+    emit PdPCD(false);
+    emit ALU(false);
+    emit PdALU(false);
+    emit PmADR(false, this->PC);
 }
 
