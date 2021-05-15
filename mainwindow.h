@@ -27,7 +27,10 @@ private:
     CPUwindow *cpuWindow;
     QAction *stepAction;
     QAction *runAction;
+<<<<<<< HEAD
 
+=======
+>>>>>>> moldo-develop
     Cpu *cpu;
 };
 #endif // MAINWINDOW_H

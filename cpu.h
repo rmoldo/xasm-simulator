@@ -13,12 +13,15 @@ public:
 
     void initializeRegisters();
     std::vector<u8> getMemory();
+<<<<<<< HEAD
 
     //// Executes next impulse
     bool advance();
 
     //// Contains the reason for halting
     QString getReason();
+=======
+>>>>>>> moldo-develop
 
 public slots:
     void setMachineCodeInMemory(u8 *data, size_t size);
