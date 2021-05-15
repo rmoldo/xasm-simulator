@@ -65,14 +65,11 @@ bool Cpu::advance()
     return !halt;
 }
 
-<<<<<<< HEAD
 QString Cpu::getReason()
 {
     return reason;
 }
 
-=======
->>>>>>> moldo-develop
 std::vector<u8> Cpu::getMemory() {
     return memory;
 }
