@@ -12,6 +12,7 @@ public:
     explicit Cpu(QObject *parent = nullptr);
 
     void initializeRegisters();
+    std::vector<u8> getMemory();
 
     //// Executes next impulse
     bool advance();
@@ -20,7 +21,7 @@ public:
     QString getReason();
 
 public slots:
-    void setMemory(u8 *data, size_t size);
+    void setMachineCodeInMemory(u8 *data, size_t size);
 
 signals:
     void memoryChanged();
