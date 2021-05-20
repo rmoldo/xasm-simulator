@@ -25,7 +25,6 @@ private:
 
     Ui::CPUwindow *ui;
     Cpu *cpu;
-    QColor aluColor;
 };
 
 #endif // CPUWINDOW_H

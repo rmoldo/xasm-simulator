@@ -80,7 +80,6 @@ void Cpu::instructionFetch()
 {
     switch(cgb->getAndIncrementImpulse()) {
     case 1:
-        /* PdPC, DBUS,PdALU, PmADR */
         DBUS = PC;
         emit PdPCD(true);
         emit ALU(true, "DBUS");
@@ -92,8 +91,11 @@ void Cpu::instructionFetch()
         break;
 
     case 2:
-        /* RD, PdMEM, PmIR, +2PC */
-        //decode, probably
+        IR = (memory[ADR] << 8) + memory[ADR + 1];
+        emit RD(true, "READ");
+        emit PmIR(true, IR);
+        PC += 2;
+        emit PCchanged(true, PC);
         std::cout<<"IF I2" <<std::endl;
         break;
 
@@ -166,6 +168,9 @@ void Cpu::resetActivatedSignals()
     emit PdPCD(false);
     emit ALU(false);
     emit PdALU(false);
-    emit PmADR(false, this->PC);
+    emit PmADR(false, ADR);
+    emit RD(false);
+    emit PmIR(false, IR);
+    emit PCchanged(false, PC);
 }
 

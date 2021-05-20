@@ -8,7 +8,6 @@ CPUwindow::CPUwindow(QWidget *parent) :
 {
     ui->setupUi(this);
     QWidget::setFixedSize(this->size());
-    aluColor = Qt::transparent;
 }
 
 CPUwindow::~CPUwindow()
@@ -30,15 +29,7 @@ void CPUwindow::paintEvent(QPaintEvent *event)
     alu << QPoint(1050, 80) << QPoint(1050, 140) << QPoint(1065, 150) << QPoint(1050, 160)
         << QPoint(1050, 220) << QPoint(1130, 175) << QPoint(1130, 125) << QPoint(1050, 80);
 
-    QBrush brush;
-    brush.setColor(aluColor);
-    brush.setStyle(Qt::SolidPattern);
-
-    QPainterPath path;
-    path.addPolygon(alu);
-
     painter.drawPolygon(alu);
-    painter.fillPath(path, brush);
 }
 
 void CPUwindow::connectBackend()
@@ -61,11 +52,9 @@ void CPUwindow::connectBackend()
 
         if(active) {
             this->ui->DlineALU->setStyleSheet("color: rgb(239, 41, 41);");
-            aluColor = QColor(239, 41, 41);
         }
         else {
             this->ui->DlineALU->setStyleSheet("color: rgb(0, 0, 0);");
-            aluColor = QColor(250, 250, 250);
         }
     });
 
@@ -92,6 +81,46 @@ void CPUwindow::connectBackend()
         else {
             this->ui->ADRlineR->setStyleSheet("color: rgb(0, 0, 0);");
             this->ui->ADRview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
+    // RD
+    connect(this->cpu, &Cpu::RD, this, [=](bool active, QString operation) {
+        this->ui->memoryLabel->setText(operation);
+
+        if(active) {
+            this->ui->addressline->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->memoryLabel->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->addressline->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->memoryLabel->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
+    // PmIR
+    connect(this->cpu, &Cpu::PmIR, this, [=](bool active, u16 value) {
+        this->ui->IRview->setText(QString::number(value));
+
+        if(active) {
+            this->ui->doutlineIR->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->IRview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->doutlineIR->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->IRview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
+    // +2PC
+    connect(this->cpu, &Cpu::PCchanged, this, [=](bool active, u16 value) {
+        this->ui->PCview->setText(QString::number(value));
+
+        if(active) {
+            this->ui->PCview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->PCview->setStyleSheet("color: rgb(0, 0, 0);");
         }
     });
 }

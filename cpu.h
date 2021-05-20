@@ -33,6 +33,9 @@ signals:
     void ALU(bool active, QString operation = "ALU");
     void PdALU(bool active);
     void PmADR(bool active, u16 value = 0);
+    void RD(bool active, QString operation = "MEMORY");
+    void PmIR(bool active, u16 value = 0);
+    void PCchanged(bool active, u16 value = 0);
 
 
 private:
