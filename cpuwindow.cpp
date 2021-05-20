@@ -1,6 +1,5 @@
 #include "cpuwindow.h"
 #include "ui_cpuwindow.h"
-#include <QAction>
 
 CPUwindow::CPUwindow(QWidget *parent) :
     QDialog(parent),

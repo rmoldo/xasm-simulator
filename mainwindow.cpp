@@ -64,7 +64,6 @@ void MainWindow::createActions() {
     viewArchitectureAction->setStatusTip(tr("View processor architecture"));
 
     connect(viewArchitectureAction, &QAction::triggered, this, [this]() {
-        //cpuWindow->setCpu(cpu);
         cpuWindow->show();
     });
 
