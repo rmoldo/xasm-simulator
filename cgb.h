@@ -16,6 +16,7 @@ public:
     Phase getPhase();
     void setPhase(Phase phase);
     u8 getAndIncrementImpulse();
+    void setImpluse(u8 impluse);
 
 signals:
 

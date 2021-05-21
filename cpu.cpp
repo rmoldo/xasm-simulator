@@ -132,28 +132,16 @@ void Cpu::instructionFetch()
 
 void Cpu::operandFetch()
 {
-    switch(cgb->getAndIncrementImpulse()) {
-    case 1:
-        /*
-            AM: PdIR[OP], SBUS, PdALU, PmM, TEX
-            AD: PdRG, DBUS, PdALU, PmM, TEX
-            AI: PdRG, DBUS, PdALU, PmADR
-            AX: PdIR[IND], PdRG, SUM, PdALU, PmADR
-        */
-        std::cout<<"OF I1" <<std::endl;
-        break;
-
-    case 2:
-        /* RD, PdMEM, PmM */
-        cgb->setPhase(Phase::EX);
-        std::cout<<"OF I2" <<std::endl;
-        break;
-
-    default:
-        halt = true;
-        reason = "Impulses out of range for Operand Fetch phase";
-        break;
+    if ((IR & 0x8000) == 0) { // class b1 instructions
+       fetchSourceOperand();
+       // Reset phase to 1
+       cgb->setImpluse(1);
+       //fetchDestinationOperand();
+    } else if ((IR >> 13) == 4) { // class b2 instructions
+        fetchDestinationOperand();
     }
+
+    cgb->setPhase(Phase::EX);
 }
 
 void Cpu::execute()
@@ -169,6 +157,120 @@ void Cpu::interrupt()
     return;
 }
 
+void Cpu::fetchSourceOperand()
+{
+    int mas = (IR >> 10) & 0x3;
+
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        switch (mas) {
+        case AM:
+            SBUS = PC;
+            emit ALU(true, "SBUS");
+
+            PC += 2;
+            emit PCchanged(true, PC);
+
+            RBUS = SBUS;
+            emit PdALU(true);
+
+            ADR = RBUS;
+            emit PmADR(true, ADR);
+
+            break;
+        case AD:
+            SBUS = R[(IR >> 6) & 0xf];
+            emit PdRGS(true);
+            emit ALU(true, "SBUS");
+
+            RBUS = SBUS;
+            emit PdALU(true);
+
+            T = RBUS;
+            emit PmT(true, T);
+
+            break;
+        case AI:
+            SBUS = R[(IR >> 6) & 0xf];
+            emit PdRGS(true);
+            emit ALU(true, "SBUS");
+
+            RBUS = SBUS;
+            emit PdALU(true);
+
+            ADR = RBUS;
+
+            break;
+
+        case AX:
+
+            break;
+
+        default:
+            break;
+        }
+
+        std::cout<<"SURSA OF I1" <<std::endl;
+        break;
+
+    case 2:
+        MDR = (memory[ADR + 1] << 8) | memory[ADR];
+        emit RD(true, "READ");
+        emit PmMDR(true, MDR);
+
+        std::cout<<"SURSA OF I2" <<std::endl;
+        break;
+
+    case 3:
+        SBUS = MDR;
+        emit ALU("SBUS");
+
+        RBUS = SBUS;
+        emit PdALU(true);
+
+        T = RBUS;
+        emit PmT(true, T);
+
+        std::cout<<"SURSA OF I3" <<std::endl;
+
+    default:
+        halt = true;
+        reason = "Impulses out of range for Operand Fetch phase";
+        break;
+    }
+}
+
+void Cpu::fetchDestinationOperand()
+{
+    int mad = (IR >> 4) & 0x3;
+
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        switch (mad) {
+        case AD: {
+            break;
+        }
+        case AI:
+            break;
+        case AX:
+            break;
+        default:
+            break;
+        }
+
+    case 2:
+        /* RD, PdMEM, PmM */
+        cgb->setPhase(Phase::EX);
+        std::cout<<"DEST OF I2" <<std::endl;
+        break;
+
+    default:
+        halt = true;
+        reason = "Impulses out of range for Operand Fetch phase";
+        break;
+    }
+}
+
 void Cpu::resetActivatedSignals()
 {
     emit PdPCD(false);
@@ -178,5 +280,8 @@ void Cpu::resetActivatedSignals()
     emit RD(false);
     emit PmIR(false, IR);
     emit PCchanged(false, PC);
+    emit PmT(false);
+    emit PdRGS(false);
+    emit PmMDR(false, MDR);
 }
 

@@ -5,6 +5,13 @@
 #include "assembler/defs.h"
 #include <cgb.h>
 
+enum AddressingModes {
+       AM = 0x0,
+       AD = 0x1,
+       AI = 0x2,
+       AX = 0x3
+   };
+
 class Cpu : public QObject
 {
     Q_OBJECT
@@ -37,7 +44,9 @@ signals:
     void RD(bool active, QString operation = "MEMORY");
     void PmIR(bool active, u16 value = 0);
     void PCchanged(bool active, u16 value = 0);
-
+    void PmT(bool active, u16 value = 0);
+    void PmMDR(bool active, u16 value = 0);
+    void PdRGS(bool active);
 
 private:
     // Phases
@@ -45,6 +54,9 @@ private:
     void operandFetch();
     void execute();
     void interrupt();
+
+    void fetchSourceOperand();
+    void fetchDestinationOperand();
 
     /* Memory */
     std::vector<u8> memory;

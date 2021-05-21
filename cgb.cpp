@@ -21,3 +21,8 @@ u8 CGB::getAndIncrementImpulse()
 {
     return crtImpulse++;
 }
+
+void CGB::setImpluse(u8 impluse)
+{
+    crtImpulse = impluse;
+}

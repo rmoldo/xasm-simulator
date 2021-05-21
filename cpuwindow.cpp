@@ -122,4 +122,31 @@ void CPUwindow::connectBackend()
             this->ui->PCview->setStyleSheet("color: rgb(0, 0, 0);");
         }
     });
+
+    // PmT
+    connect(this->cpu, &Cpu::PmT, this, [=](bool active, u16 value) {
+        this->ui->Tview->setText("0x" + QString::number(value, 16).toUpper());
+
+        if(active) {
+            this->ui->TlineR->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->Tview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->TlineR->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->Tview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
+    connect(this->cpu, &Cpu::PmMDR, this, [=](bool active, u16 value) {
+        this->ui->MDRview->setText("0x" + QString::number(value, 16).toUpper());
+
+        if(active) {
+            this->ui->doutlineMDR->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->MDRview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->doutlineMDR->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->MDRview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
 }
