@@ -97,7 +97,7 @@ void Cpu::instructionFetch()
         break;
 
     case 2:
-        IR = (memory[ADR] << 8) + memory[ADR + 1];
+        IR = (memory[ADR + 1] << 8) | memory[ADR];
         emit RD(true, "READ");
         emit PmIR(true, IR);
         PC += 2;
