@@ -71,7 +71,7 @@ void CPUwindow::connectBackend()
 
     // PmADR
     connect(this->cpu, &Cpu::PmADR, this, [=](bool active, u16 value) {
-        this->ui->ADRview->setText(QString::number(value));
+        this->ui->ADRview->setText("0x" + QString::number(value, 16).toUpper());
 
         if(active) {
             this->ui->ADRlineR->setStyleSheet("color: rgb(239, 41, 41);");
@@ -99,7 +99,7 @@ void CPUwindow::connectBackend()
 
     // PmIR
     connect(this->cpu, &Cpu::PmIR, this, [=](bool active, u16 value) {
-        this->ui->IRview->setText(QString::number(value));
+        this->ui->IRview->setText("0x" + QString::number(value, 16).toUpper());
 
         if(active) {
             this->ui->doutlineIR->setStyleSheet("color: rgb(239, 41, 41);");
@@ -113,7 +113,7 @@ void CPUwindow::connectBackend()
 
     // +2PC
     connect(this->cpu, &Cpu::PCchanged, this, [=](bool active, u16 value) {
-        this->ui->PCview->setText(QString::number(value));
+        this->ui->PCview->setText("0x" + QString::number(value, 16).toUpper());
 
         if(active) {
             this->ui->PCview->setStyleSheet("color: rgb(239, 41, 41);");
