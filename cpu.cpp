@@ -71,7 +71,13 @@ QString Cpu::getReason()
     return reason;
 }
 
-void Cpu::setMemory(u8 *data, size_t size) {
+std::vector<u8> Cpu::getMemory() {
+    return memory;
+}
+
+void Cpu::setMachineCodeInMemory(u8 *data, size_t size) {
+    std::fill(memory.begin(), memory.end(), 0x0);
+    memory.erase(memory.begin(), memory.begin() + size);
     memory.insert(memory.begin(), data, data + size);
 }
 

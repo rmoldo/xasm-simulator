@@ -6,6 +6,8 @@
 #include <QProcess>
 #include <QMessageBox>
 
+#include "cpu.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -78,12 +80,11 @@ void MainWindow::createActions() {
 
     connect(viewMemoryAction, &QAction::triggered, this->memoryViewerDialog,
             [this]() {
-        // TOOD(Moldo) change this when we implement the processor
-        unsigned char test[20] = {0x12, 0x10, 0x74, 0x44, 0x66, 0x43, 0x24, 0x76, 0x99, 0x56, 0x44, 0x22, 0x10, 0x12, 0x14, 0x24, 0x66};
-        memoryViewerDialog->setMemoryViewerData(reinterpret_cast<char*>(test));
+        memoryViewerDialog->setMemoryViewerData({reinterpret_cast<char*>(cpu->getMemory().data()), (int)cpu->getMemory().size()});
         memoryViewerDialog->show();
     });
 
+    viewMemoryAction->setEnabled(false);
     viewMenu->addAction(viewMemoryAction);
     viewToolBar->addAction(viewMemoryAction);
 
@@ -113,6 +114,14 @@ void MainWindow::createActions() {
             messageBox.information(this, "Success", "Assembled successfully!\nNow you can start the simulation.");
             stepAction->setEnabled(true);
             runAction->setEnabled(true);
+            viewMemoryAction->setEnabled(true);
+
+            QFile machineCodeFile {"output.out"};
+            machineCodeFile.open(QIODevice::ReadOnly);
+
+            QByteArray machineCode = machineCodeFile.readAll();
+
+            cpu->setMachineCodeInMemory(reinterpret_cast<u8 *>(machineCode.data()), machineCode.size());
         }
         else {
             messageBox.critical(this, "Assembler Error", errors);
