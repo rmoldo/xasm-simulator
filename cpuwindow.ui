@@ -16,9 +16,9 @@
   <widget class="QLabel" name="MDRview">
    <property name="geometry">
     <rect>
-     <x>1090</x>
+     <x>1030</x>
      <y>770</y>
-     <width>81</width>
+     <width>80</width>
      <height>36</height>
     </rect>
    </property>
@@ -41,7 +41,7 @@
   <widget class="QLabel" name="MDRlabel">
    <property name="geometry">
     <rect>
-     <x>1110</x>
+     <x>1050</x>
      <y>750</y>
      <width>41</width>
      <height>20</height>
@@ -379,10 +379,10 @@
   <widget class="QLabel" name="FLAGview">
    <property name="geometry">
     <rect>
-     <x>1090</x>
-     <y>241</y>
+     <x>1070</x>
+     <y>251</y>
      <width>81</width>
-     <height>20</height>
+     <height>36</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -404,8 +404,8 @@
   <widget class="QLabel" name="FLAGlabel">
    <property name="geometry">
     <rect>
-     <x>1110</x>
-     <y>220</y>
+     <x>1090</x>
+     <y>230</y>
      <width>41</width>
      <height>20</height>
     </rect>
@@ -445,7 +445,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="RGview_2">
+  <widget class="QLabel" name="memoryLabel">
    <property name="geometry">
     <rect>
      <x>1030</x>
@@ -476,16 +476,17 @@
   <widget class="QLabel" name="ALUlabel">
    <property name="geometry">
     <rect>
-     <x>1090</x>
+     <x>1065</x>
      <y>120</y>
-     <width>16</width>
+     <width>61</width>
      <height>61</height>
     </rect>
    </property>
    <property name="text">
-    <string>A
-L
-U</string>
+    <string>ALU</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="IRview">
@@ -494,7 +495,7 @@ U</string>
      <x>240</x>
      <y>830</y>
      <width>81</width>
-     <height>36</height>
+     <height>54</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -629,7 +630,7 @@ U</string>
     <rect>
      <x>830</x>
      <y>770</y>
-     <width>261</width>
+     <width>200</width>
      <height>18</height>
     </rect>
    </property>
@@ -648,7 +649,7 @@ U</string>
     <rect>
      <x>610</x>
      <y>790</y>
-     <width>481</width>
+     <width>420</width>
      <height>18</height>
     </rect>
    </property>
@@ -1004,6 +1005,177 @@ U</string>
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
+  <widget class="Line" name="CONDline">
+   <property name="geometry">
+    <rect>
+     <x>1070</x>
+     <y>200</y>
+     <width>21</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="FLAGlineR">
+   <property name="geometry">
+    <rect>
+     <x>1150</x>
+     <y>250</y>
+     <width>161</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="FLAGlineD">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>250</y>
+     <width>241</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="FLAGlineS">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>270</y>
+     <width>461</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="doutlineIR">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>866</y>
+     <width>711</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="dinline">
+   <property name="geometry">
+    <rect>
+     <x>1030</x>
+     <y>806</y>
+     <width>40</width>
+     <height>44</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="doutlineMDR">
+   <property name="geometry">
+    <rect>
+     <x>1070</x>
+     <y>806</y>
+     <width>40</width>
+     <height>44</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="addressline">
+   <property name="geometry">
+    <rect>
+     <x>1090</x>
+     <y>746</y>
+     <width>81</width>
+     <height>104</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="MDRlineR">
+   <property name="geometry">
+    <rect>
+     <x>1110</x>
+     <y>770</y>
+     <width>201</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>2</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
   <zorder>MDRview</zorder>
   <zorder>MDRlabel</zorder>
   <zorder>IVRview</zorder>
@@ -1025,7 +1197,7 @@ U</string>
   <zorder>FLAGlabel</zorder>
   <zorder>RGview</zorder>
   <zorder>DBUSlabel</zorder>
-  <zorder>RGview_2</zorder>
+  <zorder>memoryLabel</zorder>
   <zorder>ALUlabel</zorder>
   <zorder>IRview</zorder>
   <zorder>IRlabel</zorder>
@@ -1054,6 +1226,15 @@ U</string>
   <zorder>DlineALU</zorder>
   <zorder>SlineALU</zorder>
   <zorder>ALUlineR</zorder>
+  <zorder>CONDline</zorder>
+  <zorder>FLAGlineR</zorder>
+  <zorder>FLAGlineD</zorder>
+  <zorder>FLAGlineS</zorder>
+  <zorder>doutlineIR</zorder>
+  <zorder>dinline</zorder>
+  <zorder>doutlineMDR</zorder>
+  <zorder>addressline</zorder>
+  <zorder>MDRlineR</zorder>
  </widget>
  <resources/>
  <connections/>

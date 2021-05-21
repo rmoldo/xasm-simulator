@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     createActions();
     cpuWindow = new CPUwindow(this);
     cpu = new Cpu(this);
+    cpuWindow->setCpu(cpu);
 }
 
 MainWindow::~MainWindow()
@@ -64,7 +65,9 @@ void MainWindow::createActions() {
     viewArchitectureAction->setShortcut(QKeySequence(tr("Shift+A")));
     viewArchitectureAction->setStatusTip(tr("View processor architecture"));
 
-    connect(viewArchitectureAction, &QAction::triggered, this, [this]() {cpuWindow->show();});
+    connect(viewArchitectureAction, &QAction::triggered, this, [this]() {
+        cpuWindow->show();
+    });
 
     viewMenu->addAction(viewArchitectureAction);
     viewToolBar->addAction(viewArchitectureAction);
@@ -107,6 +110,7 @@ void MainWindow::createActions() {
         if (output.endsWith("generated successfully\n")) {
             //reinitialize cpu if reassembled
             cpu = new Cpu(this);
+            cpuWindow->setCpu(cpu);
             messageBox.information(this, "Success", "Assembled successfully!\nNow you can start the simulation.");
             stepAction->setEnabled(true);
             runAction->setEnabled(true);
@@ -122,6 +126,8 @@ void MainWindow::createActions() {
         else {
             messageBox.critical(this, "Assembler Error", errors);
         }
+
+        this->cpu->resetActivatedSignals();
     });
 
     assembleAction->setEnabled(false);
