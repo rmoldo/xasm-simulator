@@ -57,9 +57,6 @@ private:
     void execute();
     void interrupt();
 
-    void fetchSourceOperand();
-    void fetchDestinationOperand();
-
     /* Memory */
     std::vector<u8> memory;
 
