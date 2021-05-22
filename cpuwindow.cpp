@@ -45,15 +45,32 @@ void CPUwindow::connectBackend()
         }
     });
 
+    // PdPCS
+    connect(this->cpu, &Cpu::PdPCS, this, [=](bool active) {
+        if(active) {
+            this->ui->PClineS->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->SBUSview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->PClineS->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->SBUSview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
     // ALU
-    connect(this->cpu, &Cpu::ALU, this, [=](bool active, QString operation) {
+    connect(this->cpu, &Cpu::ALU, this, [=](bool active, bool source, bool destination, QString operation) {
         this->ui->ALUlabel->setText(operation);
 
         if(active) {
-            this->ui->DlineALU->setStyleSheet("color: rgb(239, 41, 41);");
+            if (destination)
+                this->ui->DlineALU->setStyleSheet("color: rgb(239, 41, 41);");
+
+            if (source)
+                this->ui->SlineALU->setStyleSheet("color: rgb(239, 41, 41);");
         }
         else {
             this->ui->DlineALU->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->SlineALU->setStyleSheet("color: rgb(0, 0, 0);");
         }
     });
 
@@ -155,22 +172,23 @@ void CPUwindow::connectBackend()
     connect(this->cpu, &Cpu::PdRGS, this, [=](bool active) {
         if(active) {
             this->ui->GRlineS->setStyleSheet("color: rgb(239, 41, 41);");
-            this->ui->RGview->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->SBUSview->setStyleSheet("color: rgb(239, 41, 41);");
         }
         else {
             this->ui->GRlineS->setStyleSheet("color: rgb(0, 0, 0);");
-            this->ui->RGview->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->SBUSview->setStyleSheet("color: rgb(0, 0, 0);");
         }
     });
 
+    // PdRGD
     connect(this->cpu, &Cpu::PdRGD, this, [=](bool active) {
         if(active) {
             this->ui->GRlineD->setStyleSheet("color: rgb(239, 41, 41);");
-            this->ui->RGview->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->DBUSview->setStyleSheet("color: rgb(239, 41, 41);");
         }
         else {
             this->ui->GRlineD->setStyleSheet("color: rgb(0, 0, 0);");
-            this->ui->RGview->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->DBUSview->setStyleSheet("color: rgb(0, 0, 0);");
         }
     });
 
@@ -178,11 +196,11 @@ void CPUwindow::connectBackend()
     connect(this->cpu, &Cpu::PdMDRS, this, [=](bool active) {
         if(active) {
             this->ui->MDRlineD_2->setStyleSheet("color: rgb(239, 41, 41);");
-            this->ui->MDRview->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->SBUSview->setStyleSheet("color: rgb(239, 41, 41);");
         }
         else {
             this->ui->MDRlineD_2->setStyleSheet("color: rgb(0, 0, 0);");
-            this->ui->MDRview->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->SBUSview->setStyleSheet("color: rgb(0, 0, 0);");
         }
     });
 }

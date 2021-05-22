@@ -38,7 +38,8 @@ signals:
 
     // Commands
     void PdPCD(bool active);
-    void ALU(bool active, QString operation = "ALU");
+    void PdPCS(bool active);
+    void ALU(bool active, bool source, bool destination, QString operation = "ALU");
     void PdALU(bool active);
     void PmADR(bool active, u16 value = 0);
     void RD(bool active, QString operation = "MEMORY");

@@ -89,7 +89,7 @@ void Cpu::instructionFetch()
     case 1:
         DBUS = PC;
         emit PdPCD(true);
-        emit ALU(true, "DBUS");
+        emit ALU(true, false, true, "DBUS");
         RBUS = DBUS;
         emit PdALU(true);
         ADR = RBUS;
@@ -144,7 +144,8 @@ void Cpu::operandFetch()
         switch (mas) {
         case AM: case AX:
             SBUS = PC;
-            emit ALU(true, "SBUS");
+            emit PdPCS(true);
+            emit ALU(true, true, false, "SBUS");
 
             PC += 2;
             emit PCchanged(true, PC);
@@ -159,7 +160,7 @@ void Cpu::operandFetch()
         case AD:
             SBUS = R[(IR >> 6) & 0xf];
             emit PdRGS(true);
-            emit ALU(true, "SBUS");
+            emit ALU(true, true, false, "SBUS");
 
             RBUS = SBUS;
             emit PdALU(true);
@@ -173,7 +174,7 @@ void Cpu::operandFetch()
         case AI:
             SBUS = R[(IR >> 6) & 0xf];
             emit PdRGS(true);
-            emit ALU(true, "SBUS");
+            emit ALU(true, true, false, "SBUS");
 
             RBUS = SBUS;
             emit PdALU(true);
@@ -203,7 +204,7 @@ void Cpu::operandFetch()
             SBUS = MDR;
             PdMDRS(true);
 
-            emit ALU(true, "SBUS");
+            emit ALU(true, true, false, "SBUS");
 
             RBUS = SBUS;
             emit PdALU(true);
@@ -222,7 +223,7 @@ void Cpu::operandFetch()
             DBUS = MDR;
             emit PdMDRS(true);
 
-            emit ALU(true, "SUM");
+            emit ALU(true, true, true, "SUM");
 
             RBUS = SBUS + DBUS;
             emit PdALU(true);
@@ -250,7 +251,7 @@ void Cpu::operandFetch()
         SBUS = MDR;
         PdMDRS(true);
 
-        emit ALU(true, "SBUS");
+        emit ALU(true, true, false, "SBUS");
 
         RBUS = SBUS;
         emit PdALU(true);
@@ -265,7 +266,7 @@ void Cpu::operandFetch()
         case AM: case AX:
             DBUS = PC;
             emit PdPCD(true);
-            emit ALU(true, "DBUS");
+            emit ALU(true, false, true, "DBUS");
 
             PC += 2;
             emit PCchanged(true, PC);
@@ -278,9 +279,9 @@ void Cpu::operandFetch()
 
             break;
         case AD:
-            SBUS = R[IR & 0xf];
+            DBUS = R[IR & 0xf];
             emit PdRGS(true);
-            emit ALU(true, "DBUS");
+            emit ALU(true, true, false, "DBUS");
 
             RBUS = DBUS;
             emit PdALU(true);
@@ -293,7 +294,7 @@ void Cpu::operandFetch()
         case AI:
             DBUS = R[IR & 0xf];
             emit PdRGS(true);
-            emit ALU(true, "DBUS");
+            emit ALU(true, false, true, "DBUS");
 
             RBUS = DBUS;
             emit PdALU(true);
@@ -326,7 +327,7 @@ void Cpu::operandFetch()
         SBUS = MDR;
         emit PdMDRS(true);
 
-        emit ALU(true, "SUM");
+        emit ALU(true, true, true, "SUM");
 
         RBUS = SBUS + DBUS;
         emit PdALU(true);
@@ -369,7 +370,7 @@ void Cpu::interrupt()
 void Cpu::resetActivatedSignals()
 {
     emit PdPCD(false);
-    emit ALU(false);
+    emit ALU(false, false, false);
     emit PdALU(false);
     emit PmADR(false, ADR);
     emit RD(false);
@@ -381,5 +382,6 @@ void Cpu::resetActivatedSignals()
     emit PdRGS(false);
     emit PdMDRS(false);
     emit PdRGD(false);
+    emit PdPCS(false);
 }
 
