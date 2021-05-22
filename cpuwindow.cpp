@@ -137,6 +137,7 @@ void CPUwindow::connectBackend()
         }
     });
 
+    // PmMDR
     connect(this->cpu, &Cpu::PmMDR, this, [=](bool active, u16 value) {
         this->ui->MDRview->setText("0x" + QString::number(value, 16).toUpper());
 
@@ -146,6 +147,41 @@ void CPUwindow::connectBackend()
         }
         else {
             this->ui->doutlineMDR->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->MDRview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
+    // PdRGS
+    connect(this->cpu, &Cpu::PdRGS, this, [=](bool active) {
+        if(active) {
+            this->ui->GRlineS->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->RGview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->GRlineS->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->RGview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
+    connect(this->cpu, &Cpu::PdRGD, this, [=](bool active) {
+        if(active) {
+            this->ui->GRlineD->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->RGview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->GRlineD->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->RGview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
+    // PdMDRS
+    connect(this->cpu, &Cpu::PdMDRS, this, [=](bool active) {
+        if(active) {
+            this->ui->MDRlineD_2->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->MDRview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->MDRlineD_2->setStyleSheet("color: rgb(0, 0, 0);");
             this->ui->MDRview->setStyleSheet("color: rgb(0, 0, 0);");
         }
     });

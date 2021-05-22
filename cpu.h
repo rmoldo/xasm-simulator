@@ -47,6 +47,8 @@ signals:
     void PmT(bool active, u16 value = 0);
     void PmMDR(bool active, u16 value = 0);
     void PdRGS(bool active);
+    void PdRGD(bool active);
+    void PdMDRS(bool active);
 
 private:
     // Phases
