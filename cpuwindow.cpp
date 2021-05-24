@@ -220,6 +220,19 @@ void CPUwindow::connectBackend()
             this->ui->DBUSview->setStyleSheet("color: rgb(0, 0, 0);");
         }
     });
+
+    // PdTS
+    connect(this->cpu, &Cpu::PdTS, this, [=](bool active) {
+        if(active) {
+            this->ui->TlineS->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->SBUSview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->TlineS->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->SBUSview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
     // PmRG
     connect(this->cpu, &Cpu::PmRG, this, [=](bool active, u8 index, u16 value) {
         if(active) {
@@ -314,6 +327,23 @@ void CPUwindow::connectBackend()
             this->ui->r13->setStyleSheet("color: rgb(0, 0, 0);");
             this->ui->r14->setStyleSheet("color: rgb(0, 0, 0);");
             this->ui->r15->setStyleSheet("color: rgb(0, 0, 0);");
+
+        }
+    });
+
+    // WR
+    connect(this->cpu, &Cpu::WR, this, [=](bool active, QString operation) {
+        this->ui->memoryLabel->setText(operation);
+
+        if(active) {
+            this->ui->addressline->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->dinline->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->memoryLabel->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->addressline->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->dinline->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->memoryLabel->setStyleSheet("color: rgb(0, 0, 0);");
         }
     });
 }

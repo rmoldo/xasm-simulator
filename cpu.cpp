@@ -36,7 +36,8 @@ void Cpu::initializeRegisters()
     // condition initialisation
     halt = false;
     reason = "Simulation finished!";
-    cil = false;
+
+    intr = false;
 }
 
 bool Cpu::advance()
@@ -104,7 +105,39 @@ void Cpu::instructionFetch()
         qDebug() << "IF I2";
         break;
 
-    case 3:
+    case 3: {
+        bool cil = false;
+
+        if((IR >> 15) == 0){
+            instructionClass = InstructionClass::b1;
+            if((IR >> 12) > 6)
+                cil = true;
+        }
+        else {
+            switch((IR >> 13) & 0x03) {
+            case 0:
+                instructionClass = InstructionClass::b2;
+                if((IR >> 6) > 0x20E)
+                    cil = true;
+                break;
+
+            case 1:
+                instructionClass = InstructionClass::b3;
+                if((IR >> 8) > 0xA7)
+                    cil = true;
+                break;
+
+            case 2:
+                instructionClass = InstructionClass::b4;
+                if(IR > 0xC012)
+                    cil = true;
+                break;
+
+            default:
+                cil = true;
+            }
+        }
+
         if(cil) {
             halt = true;
             reason =  "CIL - illegal instruction";
@@ -120,6 +153,7 @@ void Cpu::instructionFetch()
 
         qDebug() << "IF I3";
         break;
+    }
 
     default:
         halt = true;
@@ -131,8 +165,8 @@ void Cpu::instructionFetch()
 
 void Cpu::operandFetch()
 {
-    int mas = (IR >> 10) & 0x3;
-    int mad = (IR >> 4) & 0x03;
+    mas = (IR >> 10) & 0x3;
+    mad = (IR >> 4) & 0x03;
 
     if ((IR & 0x8000) != 0 && (cgb->getImpulse() < 6))
         cgb->setImpluse(6);
@@ -354,15 +388,80 @@ void Cpu::operandFetch()
 
 void Cpu::execute()
 {
-    halt = true;
-    qDebug() << "EX I1";
-    return;
+    switch (instructionClass) {
+    case InstructionClass::b1: {
+        switch (IR >> 12) {
+        case 0:
+            mov();
+            break;
+        case 1:
+            add();
+        }
+    }
+    default:
+        break;
+    }
 }
 
 void Cpu::interrupt()
 {
    qDebug() << "INT I1";
-    return;
+   return;
+}
+
+void Cpu::mov()
+{
+    switch (cgb->getAndIncrementImpulse()) {
+    case 1: {
+        SBUS = T;
+        emit PdTS(true);
+        emit ALU(true, true, false, "SBUS");
+
+        RBUS = SBUS;
+        emit PdALU(true);
+
+        switch (mad) {
+        case AD: {
+            u8 index = IR & 0xF;
+            R[index] = RBUS;
+            emit PmRG(true, index, R[index]);
+
+            decideNextPhase();
+            break;
+        }
+        case AI: case AX:
+            MDR = RBUS;
+            emit PmMDR(true, MDR, true);
+            break;
+        }
+
+        qDebug() << "EX MOV I1";
+        break;
+    }
+    case 2: {
+        memory[ADR] = MDR & 0xFF;
+        memory[ADR + 1] = (u8)MDR >> 8;
+        emit WR(true, "WRITE");
+        emit memoryChanged();
+
+        decideNextPhase();
+        qDebug() << "EX MOV I2";
+        break;
+    }
+    }
+}
+
+void Cpu::add()
+{
+    //TODO
+}
+
+void Cpu::decideNextPhase()
+{
+    if(intr)
+        cgb->setPhase(Phase::INT);
+    else
+        cgb->setPhase(Phase::IF);
 }
 
 void Cpu::resetActivatedSignals()
@@ -382,5 +481,8 @@ void Cpu::resetActivatedSignals()
     emit PdMDRD(false);
     emit PdRGD(false);
     emit PdPCS(false);
+    emit PdTS(false);
+    emit PmRG(false);
+    emit WR(false);
 }
 

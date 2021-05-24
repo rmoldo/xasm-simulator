@@ -109,6 +109,7 @@ void MainWindow::createActions() {
         QMessageBox messageBox;
         if (output.endsWith("generated successfully\n")) {
             //reinitialize cpu if reassembled
+            delete cpu;
             cpu = new Cpu(this);
             cpuWindow->setCpu(cpu);
             messageBox.information(this, "Success", "Assembled successfully!\nNow you can start the simulation.");
