@@ -94,7 +94,7 @@ void Cpu::instructionFetch()
         emit PdALU(true);
         ADR = RBUS;
         emit PmADR(true, ADR);
-        std::cout<<"IF I1" <<std::endl;
+        qDebug() << "IF I1";
         break;
 
     case 2:
@@ -103,7 +103,7 @@ void Cpu::instructionFetch()
         emit PmIR(true, IR);
         PC += 2;
         emit PCchanged(true, PC);
-        std::cout<<"IF I2" <<std::endl;
+        qDebug() << "IF I2";
         break;
 
     case 3:
@@ -120,7 +120,7 @@ void Cpu::instructionFetch()
             cgb->setPhase(Phase::EX);
         }
 
-        std::cout<<"IF I3" <<std::endl;
+        qDebug() << "IF I3";
         break;
 
     default:
@@ -234,7 +234,7 @@ void Cpu::operandFetch()
             std::cout<< "SURSA OF I3" <<std::endl;
             break;
         default:
-            std::cout << "Ceva eroare pula mea\n";
+            qDebug() << "Ceva eroare pula mea\n";
             break;
         }
 
@@ -349,7 +349,7 @@ void Cpu::operandFetch()
 
         break;
     default:
-        std::cout << "ERROR";
+        qDebug() << "ERROR";
         break;
     }
 }
