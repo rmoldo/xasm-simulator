@@ -37,7 +37,6 @@ void Cpu::initializeRegisters()
     halt = false;
     reason = "Simulation finished!";
     cil = false;
-    iop = true;
 }
 
 bool Cpu::advance()
@@ -82,7 +81,6 @@ void Cpu::setMachineCodeInMemory(u8 *data, size_t size) {
     memory.insert(memory.begin(), data, data + size);
 }
 
-#include<iostream>
 void Cpu::instructionFetch()
 {
     switch(cgb->getAndIncrementImpulse()) {
@@ -214,14 +212,14 @@ void Cpu::operandFetch()
 
             cgb->setImpluse(6);
 
-            std::cout<<"SURSA OF I3" <<std::endl;
+            qDebug() << "SURSA OF I3";
             break;
         case AX:
             SBUS = R[(IR >> 6) & 0xf];
             emit PdRGS(true);
 
             DBUS = MDR;
-            emit PdMDRS(true);
+            emit PdMDRD(true);
 
             emit ALU(true, true, true, "SUM");
 
@@ -231,7 +229,7 @@ void Cpu::operandFetch()
             ADR = RBUS;
             emit PmADR(true, ADR);
 
-            std::cout<< "SURSA OF I3" <<std::endl;
+             qDebug() << "SURSA OF I3";
             break;
         default:
             qDebug() << "ERROR SURSA OF I3";
@@ -280,20 +278,20 @@ void Cpu::operandFetch()
             break;
         case AD:
             DBUS = R[IR & 0xf];
-            emit PdRGS(true);
-            emit ALU(true, true, false, "DBUS");
+            emit PdRGD(true);
+            emit ALU(true, false, true, "DBUS");
 
             RBUS = DBUS;
             emit PdALU(true);
 
             MDR = RBUS;
-            emit PmMDR(true, T);
+            emit PmMDR(true, MDR, true);
 
             cgb->setPhase(Phase::EX);
             break;
         case AI:
             DBUS = R[IR & 0xf];
-            emit PdRGS(true);
+            emit PdRGD(true);
             emit ALU(true, false, true, "DBUS");
 
             RBUS = DBUS;
@@ -357,13 +355,13 @@ void Cpu::operandFetch()
 void Cpu::execute()
 {
     halt = true;
-    std::cout<<"EX I1" <<std::endl;
+    qDebug() << "EX I1";
     return;
 }
 
 void Cpu::interrupt()
 {
-    std::cout<<"INT I1" <<std::endl;
+   qDebug() << "INT I1";
     return;
 }
 
@@ -381,6 +379,7 @@ void Cpu::resetActivatedSignals()
     emit PmMDR(false, MDR);
     emit PdRGS(false);
     emit PdMDRS(false);
+    emit PdMDRD(false);
     emit PdRGD(false);
     emit PdPCS(false);
 }

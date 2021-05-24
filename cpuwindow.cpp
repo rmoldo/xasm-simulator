@@ -155,15 +155,20 @@ void CPUwindow::connectBackend()
     });
 
     // PmMDR
-    connect(this->cpu, &Cpu::PmMDR, this, [=](bool active, u16 value) {
+    connect(this->cpu, &Cpu::PmMDR, this, [=](bool active, u16 value, bool fromBUS) {
         this->ui->MDRview->setText("0x" + QString::number(value, 16).toUpper());
 
         if(active) {
-            this->ui->doutlineMDR->setStyleSheet("color: rgb(239, 41, 41);");
+            if(fromBUS)
+                this->ui->MDRlineR->setStyleSheet("color: rgb(239, 41, 41);");
+            else
+                this->ui->doutlineMDR->setStyleSheet("color: rgb(239, 41, 41);");
+
             this->ui->MDRview->setStyleSheet("color: rgb(239, 41, 41);");
         }
         else {
             this->ui->doutlineMDR->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->MDRlineR->setStyleSheet("color: rgb(0, 0, 0);");
             this->ui->MDRview->setStyleSheet("color: rgb(0, 0, 0);");
         }
     });
@@ -195,12 +200,24 @@ void CPUwindow::connectBackend()
     // PdMDRS
     connect(this->cpu, &Cpu::PdMDRS, this, [=](bool active) {
         if(active) {
-            this->ui->MDRlineD_2->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->MDRlineS->setStyleSheet("color: rgb(239, 41, 41);");
             this->ui->SBUSview->setStyleSheet("color: rgb(239, 41, 41);");
         }
         else {
-            this->ui->MDRlineD_2->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->MDRlineS->setStyleSheet("color: rgb(0, 0, 0);");
             this->ui->SBUSview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
+    // PdMDRD
+    connect(this->cpu, &Cpu::PdMDRD, this, [=](bool active) {
+        if(active) {
+            this->ui->MDRlineD->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->DBUSview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->MDRlineD->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->DBUSview->setStyleSheet("color: rgb(0, 0, 0);");
         }
     });
 }
