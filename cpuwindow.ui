@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1602</width>
-    <height>1027</height>
+    <width>1384</width>
+    <height>972</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1176,6 +1176,686 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
+  <widget class="QLabel" name="GRcontent">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>50</y>
+     <width>300</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>16</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>General Registers Content</string>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r2label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>180</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$r2</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r0label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>100</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$r0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r1label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>140</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$r1</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r3label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>220</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$r3</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r4label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>260</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$r4</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r5label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>300</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$r5</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r6label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>340</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$r6</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r7label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>380</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$r7</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r8label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>420</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$r8</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r9label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>460</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$r9</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r10label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>500</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$r10</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r11label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>540</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$r11</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r12label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>580</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$r12</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r13label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>620</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$r13</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r14label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>660</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$r14</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r15label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>700</y>
+     <width>50</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$r15</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r0">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>105</y>
+     <width>250</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r1">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>145</y>
+     <width>250</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r2">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>185</y>
+     <width>250</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r3">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>225</y>
+     <width>250</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r4">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>265</y>
+     <width>250</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r5">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>305</y>
+     <width>250</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r6">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>345</y>
+     <width>250</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r7">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>385</y>
+     <width>250</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r8">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>425</y>
+     <width>250</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r9">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>465</y>
+     <width>250</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r10">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>505</y>
+     <width>250</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r11">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>545</y>
+     <width>250</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r12">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>585</y>
+     <width>250</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r13">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>625</y>
+     <width>250</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r14">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>665</y>
+     <width>250</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="r15">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>705</y>
+     <width>250</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="text">
+    <string>0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
   <zorder>MDRview</zorder>
   <zorder>MDRlabel</zorder>
   <zorder>IVRview</zorder>
@@ -1235,6 +1915,39 @@
   <zorder>doutlineMDR</zorder>
   <zorder>addressline</zorder>
   <zorder>MDRlineR</zorder>
+  <zorder>GRcontent</zorder>
+  <zorder>r2label</zorder>
+  <zorder>r0label</zorder>
+  <zorder>r1label</zorder>
+  <zorder>r3label</zorder>
+  <zorder>r4label</zorder>
+  <zorder>r5label</zorder>
+  <zorder>r6label</zorder>
+  <zorder>r7label</zorder>
+  <zorder>r8label</zorder>
+  <zorder>r9label</zorder>
+  <zorder>r10label</zorder>
+  <zorder>r11label</zorder>
+  <zorder>r12label</zorder>
+  <zorder>r13label</zorder>
+  <zorder>r14label</zorder>
+  <zorder>r15label</zorder>
+  <zorder>r0</zorder>
+  <zorder>r1</zorder>
+  <zorder>r2</zorder>
+  <zorder>r3</zorder>
+  <zorder>r4</zorder>
+  <zorder>r5</zorder>
+  <zorder>r6</zorder>
+  <zorder>r7</zorder>
+  <zorder>r8</zorder>
+  <zorder>r9</zorder>
+  <zorder>r10</zorder>
+  <zorder>r11</zorder>
+  <zorder>r12</zorder>
+  <zorder>r13</zorder>
+  <zorder>r14</zorder>
+  <zorder>r15</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -220,4 +220,100 @@ void CPUwindow::connectBackend()
             this->ui->DBUSview->setStyleSheet("color: rgb(0, 0, 0);");
         }
     });
+    // PmRG
+    connect(this->cpu, &Cpu::PmRG, this, [=](bool active, u8 index, u16 value) {
+        if(active) {
+            this->ui->GRlineR->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->RGview->setStyleSheet("color: rgb(239, 41, 41);");
+            switch (index) {
+            case 0:
+                this->ui->r0->setStyleSheet("color: rgb(239, 41, 41);");
+                this->ui->r0->setText("0x" + QString::number(value, 16).toUpper());
+                break;
+            case 1:
+                this->ui->r1->setStyleSheet("color: rgb(239, 41, 41);");
+                this->ui->r1->setText("0x" + QString::number(value, 16).toUpper());
+                break;
+            case 2:
+                this->ui->r2->setStyleSheet("color: rgb(239, 41, 41);");
+                this->ui->r2->setText("0x" + QString::number(value, 16).toUpper());
+                break;
+            case 3:
+                this->ui->r3->setStyleSheet("color: rgb(239, 41, 41);");
+                this->ui->r3->setText("0x" + QString::number(value, 16).toUpper());
+                break;
+            case 4:
+                this->ui->r4->setStyleSheet("color: rgb(239, 41, 41);");
+                this->ui->r4->setText("0x" + QString::number(value, 16).toUpper());
+                break;
+            case 5:
+                this->ui->r5->setStyleSheet("color: rgb(239, 41, 41);");
+                this->ui->r5->setText("0x" + QString::number(value, 16).toUpper());
+                break;
+            case 6:
+                this->ui->r6->setStyleSheet("color: rgb(239, 41, 41);");
+                this->ui->r6->setText("0x" + QString::number(value, 16).toUpper());
+                break;
+            case 7:
+                this->ui->r7->setStyleSheet("color: rgb(239, 41, 41);");
+                this->ui->r7->setText("0x" + QString::number(value, 16).toUpper());
+                break;
+            case 8:
+                this->ui->r8->setStyleSheet("color: rgb(239, 41, 41);");
+                this->ui->r8->setText("0x" + QString::number(value, 16).toUpper());
+                break;
+            case 9:
+                this->ui->r9->setStyleSheet("color: rgb(239, 41, 41);");
+                this->ui->r9->setText("0x" + QString::number(value, 16).toUpper());
+                break;
+            case 10:
+                this->ui->r10->setStyleSheet("color: rgb(239, 41, 41);");
+                this->ui->r10->setText("0x" + QString::number(value, 16).toUpper());
+                break;
+            case 11:
+                this->ui->r11->setStyleSheet("color: rgb(239, 41, 41);");
+                this->ui->r11->setText("0x" + QString::number(value, 16).toUpper());
+                break;
+            case 12:
+                this->ui->r12->setStyleSheet("color: rgb(239, 41, 41);");
+                this->ui->r12->setText("0x" + QString::number(value, 16).toUpper());
+                break;
+            case 13:
+                this->ui->r13->setStyleSheet("color: rgb(239, 41, 41);");
+                this->ui->r13->setText("0x" + QString::number(value, 16).toUpper());
+                break;
+            case 14:
+                this->ui->r14->setStyleSheet("color: rgb(239, 41, 41);");
+                this->ui->r14->setText("0x" + QString::number(value, 16).toUpper());
+                break;
+            case 15:
+                this->ui->r15->setStyleSheet("color: rgb(239, 41, 41);");
+                this->ui->r15->setText("0x" + QString::number(value, 16).toUpper());
+                break;
+            default:
+                break;
+            }
+        }
+        else {
+            this->ui->GRlineR->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->RGview->setStyleSheet("color: rgb(0, 0, 0);");
+
+            this->ui->r0->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->r1->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->r2->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->r3->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->r4->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->r5->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->r6->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->r7->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->r8->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->r9->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->r10->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->r11->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->r12->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->r13->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->r14->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->r15->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
 }
