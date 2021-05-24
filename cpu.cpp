@@ -234,7 +234,7 @@ void Cpu::operandFetch()
             std::cout<< "SURSA OF I3" <<std::endl;
             break;
         default:
-            qDebug() << "Ceva eroare pula mea\n";
+            qDebug() << "ERROR SURSA OF I3";
             break;
         }
 
