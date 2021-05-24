@@ -46,10 +46,11 @@ signals:
     void PmIR(bool active, u16 value = 0);
     void PCchanged(bool active, u16 value = 0);
     void PmT(bool active, u16 value = 0);
-    void PmMDR(bool active, u16 value = 0);
+    void PmMDR(bool active, u16 value = 0, bool fromBUS = false);
     void PdRGS(bool active);
     void PdRGD(bool active);
     void PdMDRS(bool active);
+    void PdMDRD(bool active);
 
 private:
     // Phases
@@ -84,7 +85,6 @@ private:
 
     /* Conditions */
     bool cil;
-    bool iop;
 
     bool halt;
     QString reason;

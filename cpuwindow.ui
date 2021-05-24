@@ -644,7 +644,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="Line" name="MDRlineD_2">
+  <widget class="Line" name="MDRlineS">
    <property name="geometry">
     <rect>
      <x>610</x>
@@ -1207,7 +1207,7 @@
   <zorder>IVRlineR</zorder>
   <zorder>ADRlineR</zorder>
   <zorder>MDRlineD</zorder>
-  <zorder>MDRlineD_2</zorder>
+  <zorder>MDRlineS</zorder>
   <zorder>ADRlineD</zorder>
   <zorder>ADRlineS</zorder>
   <zorder>IVRlineD</zorder>
