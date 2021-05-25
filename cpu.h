@@ -52,6 +52,8 @@ signals:
     void PdMDRS(bool active);
     void PdMDRD(bool active);
 
+    void PmMem(std::vector<u8> mem);
+
 private:
     // Phases
     void instructionFetch();
