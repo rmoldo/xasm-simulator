@@ -12,6 +12,13 @@ enum AddressingModes {
        AX = 0x3
    };
 
+enum class InstructionClass {
+    b1,
+    b2,
+    b3,
+    b4
+};
+
 class Cpu : public QObject
 {
     Q_OBJECT
@@ -51,6 +58,9 @@ signals:
     void PdRGD(bool active);
     void PdMDRS(bool active);
     void PdMDRD(bool active);
+    void PdTS(bool active);
+    void PmRG(bool active, u8 index = 17, u16 value = 0);
+    void WR(bool active, QString operation = "MEMORY");
 
     void PmMem(std::vector<u8> mem);
 
@@ -60,6 +70,10 @@ private:
     void operandFetch();
     void execute();
     void interrupt();
+
+    /* instructions */
+    void mov();
+    void add();
 
     /* Memory */
     std::vector<u8> memory;
@@ -85,8 +99,13 @@ private:
     /* Command generator block */
     CGB *cgb;
 
-    /* Conditions */
-    bool cil;
+    /* misc */
+    void decideNextPhase();
+
+    int mas;
+    int mad;
+    InstructionClass instructionClass;
+    bool intr;
 
     bool halt;
     QString reason;

@@ -110,6 +110,7 @@ void MainWindow::createActions() {
         QMessageBox messageBox;
         if (output.endsWith("generated successfully\n")) {
             //reinitialize cpu if reassembled
+            delete cpu;
             cpu = new Cpu(this);
             cpuWindow->setCpu(cpu);
             memoryViewerDialog->setCpu(cpu);
