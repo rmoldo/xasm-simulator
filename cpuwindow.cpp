@@ -19,6 +19,7 @@ void CPUwindow::setCpu(Cpu *cpu)
 {
     this->cpu = cpu;
     connectBackend();
+    resetRegisters();
 }
 
 void CPUwindow::paintEvent(QPaintEvent *event)
@@ -327,7 +328,6 @@ void CPUwindow::connectBackend()
             this->ui->r13->setStyleSheet("color: rgb(0, 0, 0);");
             this->ui->r14->setStyleSheet("color: rgb(0, 0, 0);");
             this->ui->r15->setStyleSheet("color: rgb(0, 0, 0);");
-
         }
     });
 
@@ -346,4 +346,24 @@ void CPUwindow::connectBackend()
             this->ui->memoryLabel->setStyleSheet("color: rgb(0, 0, 0);");
         }
     });
+}
+
+void CPUwindow::resetRegisters()
+{
+    this->ui->r0->setText(QString::number(0));
+    this->ui->r1->setText(QString::number(0));
+    this->ui->r2->setText(QString::number(0));
+    this->ui->r3->setText(QString::number(0));
+    this->ui->r4->setText(QString::number(0));
+    this->ui->r5->setText(QString::number(0));
+    this->ui->r6->setText(QString::number(0));
+    this->ui->r7->setText(QString::number(0));
+    this->ui->r8->setText(QString::number(0));
+    this->ui->r9->setText(QString::number(0));
+    this->ui->r10->setText(QString::number(0));
+    this->ui->r11->setText(QString::number(0));
+    this->ui->r12->setText(QString::number(0));
+    this->ui->r13->setText(QString::number(0));
+    this->ui->r14->setText(QString::number(0));
+    this->ui->r15->setText(QString::number(0));
 }

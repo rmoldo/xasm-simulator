@@ -22,6 +22,7 @@ public:
 
 private:
     void connectBackend();
+    void resetRegisters();
 
     Ui::CPUwindow *ui;
     Cpu *cpu;

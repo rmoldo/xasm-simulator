@@ -440,9 +440,9 @@ void Cpu::mov()
     }
     case 2: {
         memory[ADR] = MDR & 0xFF;
-        memory[ADR + 1] = (u8)MDR >> 8;
+        memory[ADR + 1] = MDR >> 8;
         emit WR(true, "WRITE");
-        emit memoryChanged();
+        emit PmMem(memory);
 
         decideNextPhase();
         qDebug() << "EX MOV I2";
