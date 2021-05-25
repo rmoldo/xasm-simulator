@@ -75,6 +75,7 @@ private:
     /* instructions */
     void mov();
     void add();
+    void sub();
 
     /* Memory */
     std::vector<u8> memory;

@@ -397,9 +397,17 @@ void Cpu::execute()
         case 1:
             add();
             break;
+        case 2:
+            sub();
+            break;
+        default:
+            qDebug() << "Instruction not defined";
+            break;
         }
+        break;
     }
     default:
+        qDebug() << "Instruction class not defined";
         break;
     }
 }
@@ -482,7 +490,7 @@ void Cpu::add()
         }
 
         setConditions(true);
-        qDebug() << "EX MOV I1";
+        qDebug() << "EX ADD I1";
         break;
     }
     case 2: {
@@ -492,7 +500,53 @@ void Cpu::add()
         emit PmMem(memory);
 
         decideNextPhase();
-        qDebug() << "EX MOV I2";
+        qDebug() << "EX ADD I2";
+        break;
+    }
+    }
+}
+
+void Cpu::sub()
+{
+    switch (cgb->getAndIncrementImpulse()) {
+    case 1: {
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        SBUS = ~T;
+        emit PdTS(true);
+
+        RBUS = DBUS + SBUS + 1; //Cin
+        emit ALU(true, true, true, "SUM+C");
+        emit PdALU(true);
+
+        switch (mad) {
+        case AD: {
+            u8 index = IR & 0xF;
+            R[index] = RBUS;
+            emit PmRG(true, index, R[index]);
+
+            decideNextPhase();
+            break;
+        }
+        case AI: case AX:
+            MDR = RBUS;
+            emit PmMDR(true, MDR, true);
+            break;
+        }
+
+        setConditions(true);
+        qDebug() << "EX SUB I1";
+        break;
+    }
+    case 2: {
+        memory[ADR] = MDR & 0xFF;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+        emit PmMem(memory);
+
+        decideNextPhase();
+        qDebug() << "EX SUB I2";
         break;
     }
     }
