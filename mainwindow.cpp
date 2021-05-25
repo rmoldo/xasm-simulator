@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     cpuWindow = new CPUwindow(this);
     cpu = new Cpu(this);
     cpuWindow->setCpu(cpu);
+    memoryViewerDialog->setCpu(cpu);
 }
 
 MainWindow::~MainWindow()
@@ -112,6 +113,7 @@ void MainWindow::createActions() {
             delete cpu;
             cpu = new Cpu(this);
             cpuWindow->setCpu(cpu);
+            memoryViewerDialog->setCpu(cpu);
             messageBox.information(this, "Success", "Assembled successfully!\nNow you can start the simulation.");
             stepAction->setEnabled(true);
             runAction->setEnabled(true);

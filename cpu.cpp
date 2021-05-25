@@ -481,6 +481,7 @@ void Cpu::resetActivatedSignals()
     emit PdMDRD(false);
     emit PdRGD(false);
     emit PdPCS(false);
+    emit PmMem(memory);
     emit PdTS(false);
     emit PmRG(false);
     emit WR(false);

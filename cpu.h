@@ -62,6 +62,8 @@ signals:
     void PmRG(bool active, u8 index = 17, u16 value = 0);
     void WR(bool active, QString operation = "MEMORY");
 
+    void PmMem(std::vector<u8> mem);
+
 private:
     // Phases
     void instructionFetch();
