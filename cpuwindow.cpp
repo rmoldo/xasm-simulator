@@ -346,6 +346,25 @@ void CPUwindow::connectBackend()
             this->ui->memoryLabel->setStyleSheet("color: rgb(0, 0, 0);");
         }
     });
+
+    // PmFLAG
+    connect(this->cpu, &Cpu::PmFLAG, this, [=](bool active, u16 value, bool fromBUS) {
+        this->ui->FLAGview->setText("0b" + QString::number(value, 2).toUpper());
+
+        if(active) {
+            if(fromBUS)
+                this->ui->FLAGlineR->setStyleSheet("color: rgb(239, 41, 41);");
+            else
+                this->ui->CONDline->setStyleSheet("color: rgb(239, 41, 41);");
+
+            this->ui->FLAGview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->FLAGlineR->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->CONDline->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->FLAGview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
 }
 
 void CPUwindow::resetRegisters()

@@ -61,6 +61,7 @@ signals:
     void PdTS(bool active);
     void PmRG(bool active, u8 index = 17, u16 value = 0);
     void WR(bool active, QString operation = "MEMORY");
+    void PmFLAG(bool active, u16 value = 0, bool fromBUS = false);
 
     void PmMem(std::vector<u8> mem);
 
@@ -101,6 +102,11 @@ private:
 
     /* misc */
     void decideNextPhase();
+    void setConditions(bool CarryOverflow);
+    void setC(bool set);
+    void setZ(bool set);
+    void setS(bool set);
+    void setV(bool set);
 
     int mas;
     int mad;

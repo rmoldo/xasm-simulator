@@ -396,6 +396,7 @@ void Cpu::execute()
             break;
         case 1:
             add();
+            break;
         }
     }
     default:
@@ -453,7 +454,48 @@ void Cpu::mov()
 
 void Cpu::add()
 {
-    //TODO
+    switch (cgb->getAndIncrementImpulse()) {
+    case 1: {
+        SBUS = T;
+        emit PdTS(true);
+
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        RBUS = SBUS + DBUS;
+        emit ALU(true, true, true, "SUM");
+        emit PdALU(true);
+
+        switch (mad) {
+        case AD: {
+            u8 index = IR & 0xF;
+            R[index] = RBUS;
+            emit PmRG(true, index, R[index]);
+
+            decideNextPhase();
+            break;
+        }
+        case AI: case AX:
+            MDR = RBUS;
+            emit PmMDR(true, MDR, true);
+            break;
+        }
+
+        setConditions(true);
+        qDebug() << "EX MOV I1";
+        break;
+    }
+    case 2: {
+        memory[ADR] = MDR & 0xFF;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+        emit PmMem(memory);
+
+        decideNextPhase();
+        qDebug() << "EX MOV I2";
+        break;
+    }
+    }
 }
 
 void Cpu::decideNextPhase()
@@ -462,6 +504,80 @@ void Cpu::decideNextPhase()
         cgb->setPhase(Phase::INT);
     else
         cgb->setPhase(Phase::IF);
+}
+
+void Cpu::setConditions(bool CarryOverflow)
+{
+    u8 Cout = CarryOverflow && (RBUS != (u32)SBUS + (u32)DBUS);
+    if(Cout) {
+        setC(true);
+    }
+    else
+        setC(false);
+
+    if(RBUS == 0)
+        setZ(true);
+    else
+        setZ(false);
+
+    if(RBUS >> 15)
+        setS(true);
+    else
+        setS(false);
+
+    u8 dcr = CarryOverflow &&  (((SBUS >> 15) ^ (DBUS >> 15)) & !((RBUS >> 15) ^ Cout));
+    if(dcr)
+        setV(true);
+    else
+        setV(false);
+}
+
+void Cpu::setC(bool set)
+{
+    if(set) {
+        FLAG |= 0b1000;
+        emit PmFLAG(true, FLAG);
+    }
+    else {
+        FLAG &= 0b0111;
+        emit PmFLAG(true, FLAG);
+    }
+}
+
+void Cpu::setZ(bool set)
+{
+    if(set) {
+        FLAG |= 0b0100;
+        emit PmFLAG(true, FLAG);
+    }
+    else {
+        FLAG &= 0b1011;
+        emit PmFLAG(true, FLAG);
+    }
+}
+
+void Cpu::setS(bool set)
+{
+    if(set) {
+        FLAG |= 0b0010;
+        emit PmFLAG(true, FLAG);
+    }
+    else {
+        FLAG &= 0b1101;
+        emit PmFLAG(true, FLAG);
+    }
+}
+
+void Cpu::setV(bool set)
+{
+    if(set) {
+        FLAG |= 0b0001;
+        emit PmFLAG(true, FLAG);
+    }
+    else {
+        FLAG &= 0b1110;
+        emit PmFLAG(true, FLAG);
+    }
 }
 
 void Cpu::resetActivatedSignals()
@@ -485,5 +601,6 @@ void Cpu::resetActivatedSignals()
     emit PdTS(false);
     emit PmRG(false);
     emit WR(false);
+    emit PmFLAG(false, FLAG);
 }
 
