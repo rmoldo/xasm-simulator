@@ -1,6 +1,7 @@
 #include "cpu.h"
 
 #include <vector>
+#include <climits>
 #include <QDebug>
 
 Cpu::Cpu(QObject *parent) : QObject(parent)
@@ -470,7 +471,7 @@ void Cpu::add()
         DBUS = MDR;
         emit PdMDRD(true);
 
-        RBUS = SBUS + DBUS;
+        RBUS = (short)SBUS + (short)DBUS;
         emit ALU(true, true, true, "SUM");
         emit PdALU(true);
 
@@ -489,7 +490,11 @@ void Cpu::add()
             break;
         }
 
-        setConditions(true, true);
+        setC(true);
+        setZ();
+        setS();
+        setV(true);
+
         qDebug() << "EX ADD I1";
         break;
     }
@@ -513,10 +518,10 @@ void Cpu::sub()
         DBUS = MDR;
         emit PdMDRD(true);
 
-        SBUS = ~T;
+        SBUS = ~T + 1; //Cin
         emit PdTS(true);
 
-        RBUS = DBUS + SBUS + 1; //Cin
+        RBUS = (short)DBUS + (short)SBUS;
         emit ALU(true, true, true, "SUM+C");
         emit PdALU(true);
 
@@ -535,7 +540,10 @@ void Cpu::sub()
             break;
         }
 
-        setConditions(true);
+        setC(false);
+        setZ();
+        setS();
+        setV(false);
         qDebug() << "EX SUB I1";
         break;
     }
@@ -560,45 +568,9 @@ void Cpu::decideNextPhase()
         cgb->setPhase(Phase::IF);
 }
 
-void Cpu::setConditions(bool CarryOverflow, bool isADD)
+void Cpu::setC(bool isAdding)
 {
-    u8 Cout;
-    if(isADD)
-        Cout = CarryOverflow && (RBUS != (u32)DBUS + (u32)SBUS);
-    else
-        Cout = CarryOverflow && (RBUS != (short)DBUS + (short)SBUS + 1);
-
-    if(Cout) {
-        setC(true);
-    }
-    else
-        setC(false);
-
-    if(RBUS == 0)
-        setZ(true);
-    else
-        setZ(false);
-
-    if(RBUS >> 15)
-        setS(true);
-    else
-        setS(false);
-
-    u8 dcr;
-    if(isADD)
-        dcr = CarryOverflow &&  ((!((SBUS >> 15) ^ (DBUS >> 15))) & ((RBUS >> 15) ^ Cout));
-    else
-        dcr = CarryOverflow &&  (((SBUS >> 15) ^ (DBUS >> 15)) & ((RBUS >> 15) ^ Cout));
-
-    if(dcr)
-        setV(true);
-    else
-        setV(false);
-}
-
-void Cpu::setC(bool set)
-{
-    if(set) {
+    if(checkC(isAdding)) {
         FLAG |= 0b1000;
         emit PmFLAG(true, FLAG);
     }
@@ -608,9 +580,9 @@ void Cpu::setC(bool set)
     }
 }
 
-void Cpu::setZ(bool set)
+void Cpu::setZ()
 {
-    if(set) {
+    if(checkZ()) {
         FLAG |= 0b0100;
         emit PmFLAG(true, FLAG);
     }
@@ -620,9 +592,9 @@ void Cpu::setZ(bool set)
     }
 }
 
-void Cpu::setS(bool set)
+void Cpu::setS()
 {
-    if(set) {
+    if(checkS()) {
         FLAG |= 0b0010;
         emit PmFLAG(true, FLAG);
     }
@@ -632,9 +604,9 @@ void Cpu::setS(bool set)
     }
 }
 
-void Cpu::setV(bool set)
+void Cpu::setV(bool isAdding)
 {
-    if(set) {
+    if(checkV(isAdding)) {
         FLAG |= 0b0001;
         emit PmFLAG(true, FLAG);
     }
@@ -642,6 +614,43 @@ void Cpu::setV(bool set)
         FLAG &= 0b1110;
         emit PmFLAG(true, FLAG);
     }
+}
+
+//Think this doesn't work
+bool Cpu::checkC(bool isAdding)
+{
+    bool carry;
+
+    if(isAdding)
+        carry = (((short)SBUS > 0) && ((short)DBUS > SHRT_MAX - (short)SBUS));
+    else
+        carry = (((short)SBUS < 0) && ((short)DBUS > SHRT_MIN + (short)SBUS));
+
+    qDebug() << "CARRY: " << carry;
+    return carry;
+}
+
+bool Cpu::checkZ()
+{
+    return RBUS == 0;
+}
+
+bool Cpu::checkS()
+{
+    return RBUS >> 15;
+}
+
+bool Cpu::checkV(bool isAdding)
+{
+    bool dcr;
+    bool carry = checkC(isAdding);
+
+    if(isAdding)
+        dcr = ((~(SBUS ^ DBUS)) >> 15) & ((RBUS >> 15) ^ carry);
+    else
+        dcr = ((SBUS >> 15) ^ (DBUS >> 15)) & ((RBUS >> 15) ^ carry);
+
+    return dcr;
 }
 
 void Cpu::resetActivatedSignals()

@@ -103,11 +103,14 @@ private:
 
     /* misc */
     void decideNextPhase();
-    void setConditions(bool CarryOverflow, bool isADD = false);
-    void setC(bool set);
-    void setZ(bool set);
-    void setS(bool set);
-    void setV(bool set);
+    void setC(bool isAdding);
+    void setZ();
+    void setS();
+    void setV(bool isAdding);
+    bool checkC(bool isAdding);
+    bool checkZ();
+    bool checkS();
+    bool checkV(bool isAdding);
 
     int mas;
     int mad;
