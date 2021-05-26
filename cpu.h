@@ -73,9 +73,30 @@ private:
     void interrupt();
 
     /* instructions */
+    // b1 class
     void mov();
     void add();
     void sub();
+    void cmp();
+    void AND();
+    void OR();
+    void XOR();
+
+    // b2
+    void clr();
+    void neg();
+    void inc();
+    void dec();
+    void asl();
+    void asr();
+    void lsr();
+    void ror();
+    void rlc();
+    void rrc();
+    void jmp();
+    void call();
+    void pushRi();
+    void popRi();
 
     /* Memory */
     std::vector<u8> memory;
