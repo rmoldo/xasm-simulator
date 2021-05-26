@@ -103,7 +103,7 @@ private:
 
     /* misc */
     void decideNextPhase();
-    void setConditions(bool CarryOverflow, bool isADD = true);
+    void setConditions(bool CarryOverflow, bool isADD = false);
     void setC(bool set);
     void setZ(bool set);
     void setS(bool set);

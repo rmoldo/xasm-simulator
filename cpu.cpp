@@ -489,7 +489,7 @@ void Cpu::add()
             break;
         }
 
-        setConditions(true);
+        setConditions(true, true);
         qDebug() << "EX ADD I1";
         break;
     }
@@ -564,9 +564,9 @@ void Cpu::setConditions(bool CarryOverflow, bool isADD)
 {
     u8 Cout;
     if(isADD)
-        Cout = CarryOverflow && (RBUS != (u32)SBUS + (u32)DBUS);
+        Cout = CarryOverflow && (RBUS != (u32)DBUS + (u32)SBUS);
     else
-        Cout = CarryOverflow && (RBUS != (u32)SBUS + (u32)DBUS + 1);
+        Cout = CarryOverflow && (RBUS != (short)DBUS + (short)SBUS + 1);
 
     if(Cout) {
         setC(true);
