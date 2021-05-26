@@ -560,9 +560,14 @@ void Cpu::decideNextPhase()
         cgb->setPhase(Phase::IF);
 }
 
-void Cpu::setConditions(bool CarryOverflow)
+void Cpu::setConditions(bool CarryOverflow, bool isADD)
 {
-    u8 Cout = CarryOverflow && (RBUS != (u32)SBUS + (u32)DBUS);
+    u8 Cout;
+    if(isADD)
+        Cout = CarryOverflow && (RBUS != (u32)SBUS + (u32)DBUS);
+    else
+        Cout = CarryOverflow && (RBUS != (u32)SBUS + (u32)DBUS + 1);
+
     if(Cout) {
         setC(true);
     }
@@ -579,7 +584,12 @@ void Cpu::setConditions(bool CarryOverflow)
     else
         setS(false);
 
-    u8 dcr = CarryOverflow &&  (((SBUS >> 15) ^ (DBUS >> 15)) & !((RBUS >> 15) ^ Cout));
+    u8 dcr;
+    if(isADD)
+        dcr = CarryOverflow &&  ((!((SBUS >> 15) ^ (DBUS >> 15))) & ((RBUS >> 15) ^ Cout));
+    else
+        dcr = CarryOverflow &&  (((SBUS >> 15) ^ (DBUS >> 15)) & ((RBUS >> 15) ^ Cout));
+
     if(dcr)
         setV(true);
     else
