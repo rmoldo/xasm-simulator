@@ -401,6 +401,47 @@ void Cpu::execute()
         case 2:
             sub();
             break;
+        case 3:
+            cmp();
+            break;
+        case 4:
+            AND();
+            break;
+        case 5:
+            OR();
+            break;
+        case 6:
+            XOR();
+            break;
+        default:
+            qDebug() << "Instruction not defined";
+            break;
+        }
+        break;
+    }
+    case InstructionClass::b2: {
+        switch ((IR >> 6) & 0xF) {
+        case 0:
+            clr();
+            break;
+        case 1:
+            //add();
+            break;
+        case 2:
+            //sub();
+            break;
+        case 3:
+            //cmp();
+            break;
+        case 4:
+            //AND();
+            break;
+        case 5:
+            //OR();
+            break;
+        case 6:
+            //XOR();
+            break;
         default:
             qDebug() << "Instruction not defined";
             break;
@@ -558,6 +599,206 @@ void Cpu::sub()
         break;
     }
     }
+}
+
+void Cpu::cmp()
+{
+    if(cgb->getAndIncrementImpulse() == 1) {
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        SBUS = ~T;
+        emit PdTS(true);
+
+        RBUS = DBUS + SBUS + 1; //Cin
+        emit ALU(true, true, true, "SUM+C");
+
+        setConditions(true);
+        decideNextPhase();
+        qDebug() << "EX CMP I1";
+    }
+}
+
+void Cpu::AND()
+{
+    switch (cgb->getAndIncrementImpulse()) {
+    case 1: {
+        SBUS = T;
+        emit PdTS(true);
+
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        RBUS = SBUS & DBUS;
+        emit ALU(true, true, true, "AND");
+        emit PdALU(true);
+
+        switch (mad) {
+        case AD: {
+            u8 index = IR & 0xF;
+            R[index] = RBUS;
+            emit PmRG(true, index, R[index]);
+
+            decideNextPhase();
+            break;
+        }
+        case AI: case AX:
+            MDR = RBUS;
+            emit PmMDR(true, MDR, true);
+            break;
+        }
+
+        setConditions(false);
+        qDebug() << "EX AND I1";
+        break;
+    }
+    case 2: {
+        memory[ADR] = MDR & 0xFF;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+        emit PmMem(memory);
+
+        decideNextPhase();
+        qDebug() << "EX AND I2";
+        break;
+    }
+    }
+}
+
+void Cpu::OR()
+{
+    switch (cgb->getAndIncrementImpulse()) {
+    case 1: {
+        SBUS = T;
+        emit PdTS(true);
+
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        RBUS = SBUS | DBUS;
+        emit ALU(true, true, true, "OR");
+        emit PdALU(true);
+
+        switch (mad) {
+        case AD: {
+            u8 index = IR & 0xF;
+            R[index] = RBUS;
+            emit PmRG(true, index, R[index]);
+
+            decideNextPhase();
+            break;
+        }
+        case AI: case AX:
+            MDR = RBUS;
+            emit PmMDR(true, MDR, true);
+            break;
+        }
+
+        setConditions(false);
+        qDebug() << "EX OR I1";
+        break;
+    }
+    case 2: {
+        memory[ADR] = MDR & 0xFF;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+        emit PmMem(memory);
+
+        decideNextPhase();
+        qDebug() << "EX OR I2";
+        break;
+    }
+    }
+}
+
+void Cpu::XOR()
+{
+    switch (cgb->getAndIncrementImpulse()) {
+    case 1: {
+        SBUS = T;
+        emit PdTS(true);
+
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        RBUS = SBUS ^ DBUS;
+        emit ALU(true, true, true, "XOR");
+        emit PdALU(true);
+
+        switch (mad) {
+        case AD: {
+            u8 index = IR & 0xF;
+            R[index] = RBUS;
+            emit PmRG(true, index, R[index]);
+
+            decideNextPhase();
+            break;
+        }
+        case AI: case AX:
+            MDR = RBUS;
+            emit PmMDR(true, MDR, true);
+            break;
+        }
+
+        setConditions(false);
+        qDebug() << "EX XOR I1";
+        break;
+    }
+    case 2: {
+        memory[ADR] = MDR & 0xFF;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+        emit PmMem(memory);
+
+        decideNextPhase();
+        qDebug() << "EX XOR I2";
+        break;
+    }
+    }
+}
+
+void Cpu::clr()
+{
+    switch (cgb->getAndIncrementImpulse()) {
+    case 1: {
+        SBUS = 0;
+        //shall we emit something?
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        switch (mad) {
+        case AD: {
+            u8 index = IR & 0xF;
+            R[index] = RBUS;
+            emit PmRG(true, index, R[index]);
+
+            decideNextPhase();
+            break;
+        }
+        case AI: case AX:
+            MDR = RBUS;
+            emit PmMDR(true, MDR, true);
+            break;
+        }
+
+        setConditions(false);
+        qDebug() << "EX CLR I1";
+        break;
+    }
+    case 2: {
+        memory[ADR] = MDR & 0xFF;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+        emit PmMem(memory);
+
+        decideNextPhase();
+        qDebug() << "EX CLR I2";
+        break;
+    }
+    }
+
 }
 
 void Cpu::decideNextPhase()
