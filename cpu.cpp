@@ -613,7 +613,10 @@ void Cpu::cmp()
         RBUS = DBUS + SBUS + 1; //Cin
         emit ALU(true, true, true, "SUM+C");
 
-        setConditions(true);
+        setC(false);
+        setZ();
+        setS();
+        setV(false);
         decideNextPhase();
         qDebug() << "EX CMP I1";
     }
@@ -648,7 +651,8 @@ void Cpu::AND()
             break;
         }
 
-        setConditions(false);
+        setZ();
+        setS();
         qDebug() << "EX AND I1";
         break;
     }
@@ -694,7 +698,8 @@ void Cpu::OR()
             break;
         }
 
-        setConditions(false);
+        setZ();
+        setS();
         qDebug() << "EX OR I1";
         break;
     }
@@ -740,7 +745,8 @@ void Cpu::XOR()
             break;
         }
 
-        setConditions(false);
+        setZ();
+        setS();
         qDebug() << "EX XOR I1";
         break;
     }
@@ -783,7 +789,8 @@ void Cpu::clr()
             break;
         }
 
-        setConditions(false);
+        setZ();
+        setS();
         qDebug() << "EX CLR I1";
         break;
     }
