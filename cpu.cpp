@@ -425,22 +425,22 @@ void Cpu::execute()
             clr();
             break;
         case 1:
-            //add();
+            neg();
             break;
         case 2:
-            //sub();
+            inc();
             break;
         case 3:
-            //cmp();
+            dec();
             break;
         case 4:
-            //AND();
+            asl();
             break;
         case 5:
-            //OR();
+            asr();
             break;
         case 6:
-            //XOR();
+            //lsr();
             break;
         default:
             qDebug() << "Instruction not defined";
@@ -531,7 +531,7 @@ void Cpu::add()
             break;
         }
 
-        setC(true);
+        setC(checkC(true));
         setZ();
         setS();
         setV(true);
@@ -581,7 +581,7 @@ void Cpu::sub()
             break;
         }
 
-        setC(false);
+        setC(checkC(false));
         setZ();
         setS();
         setV(false);
@@ -613,7 +613,7 @@ void Cpu::cmp()
         RBUS = DBUS + SBUS + 1; //Cin
         emit ALU(true, true, true, "SUM+C");
 
-        setC(false);
+        setC(checkC(false));
         setZ();
         setS();
         setV(false);
@@ -808,6 +808,241 @@ void Cpu::clr()
 
 }
 
+void Cpu::neg()
+{
+    switch (cgb->getAndIncrementImpulse()) {
+    case 1: {
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        RBUS = ~DBUS;
+        emit ALU(true, false, true, "!DBUS");
+        emit PdALU(true);
+
+        switch (mad) {
+        case AD: {
+            u8 index = IR & 0xF;
+            R[index] = RBUS;
+            emit PmRG(true, index, R[index]);
+
+            decideNextPhase();
+            break;
+        }
+        case AI: case AX:
+            MDR = RBUS;
+            emit PmMDR(true, MDR, true);
+            break;
+        }
+
+        setZ();
+        setS();
+        qDebug() << "EX NEG I1";
+        break;
+    }
+    case 2: {
+        memory[ADR] = MDR & 0xFF;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+        emit PmMem(memory);
+
+        decideNextPhase();
+        qDebug() << "EX NEG I2";
+        break;
+    }
+    }
+}
+
+void Cpu::inc()
+{
+    switch (cgb->getAndIncrementImpulse()) {
+    case 1: {
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        SBUS = 0;
+        //emit something?
+
+
+        RBUS = SBUS + DBUS + 1; //Cin
+        emit ALU(true, true, true, "SUM+C");
+        emit PdALU(true);
+
+        switch (mad) {
+        case AD: {
+            u8 index = IR & 0xF;
+            R[index] = RBUS;
+            emit PmRG(true, index, R[index]);
+
+            decideNextPhase();
+            break;
+        }
+        case AI: case AX:
+            MDR = RBUS;
+            emit PmMDR(true, MDR, true);
+            break;
+        }
+
+        setC(checkC(true));
+        setZ();
+        setS();
+        setV(true);
+
+        qDebug() << "EX INC I1";
+        break;
+    }
+    case 2: {
+        memory[ADR] = MDR & 0xFF;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+        emit PmMem(memory);
+
+        decideNextPhase();
+        qDebug() << "EX INC I2";
+        break;
+    }
+    }
+}
+
+void Cpu::dec()
+{
+    switch (cgb->getAndIncrementImpulse()) {
+    case 1: {
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        SBUS = (short) - 1;
+        //emit something?
+
+
+        RBUS = SBUS + DBUS;
+        emit ALU(true, true, true, "SUM");
+        emit PdALU(true);
+
+        switch (mad) {
+        case AD: {
+            u8 index = IR & 0xF;
+            R[index] = RBUS;
+            emit PmRG(true, index, R[index]);
+
+            decideNextPhase();
+            break;
+        }
+        case AI: case AX:
+            MDR = RBUS;
+            emit PmMDR(true, MDR, true);
+            break;
+        }
+
+        setC(checkC(false));
+        setZ();
+        setS();
+        setV(false);
+
+        qDebug() << "EX DEC I1";
+        break;
+    }
+    case 2: {
+        memory[ADR] = MDR & 0xFF;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+        emit PmMem(memory);
+
+        decideNextPhase();
+        qDebug() << "EX DEC I2";
+        break;
+    }
+    }
+}
+
+void Cpu::asl()
+{
+    switch (cgb->getAndIncrementImpulse()) {
+    case 1: {
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        RBUS = DBUS << 1;
+        emit ALU(true, false, true, "ST");
+        emit PdALU(true);
+
+        switch (mad) {
+        case AD: {
+            u8 index = IR & 0xF;
+            R[index] = RBUS;
+            emit PmRG(true, index, R[index]);
+
+            decideNextPhase();
+            break;
+        }
+        case AI: case AX:
+            MDR = RBUS;
+            emit PmMDR(true, MDR, true);
+            break;
+        }
+
+        setC(MDR >> 15);
+
+        qDebug() << "EX ASL I1";
+        break;
+    }
+    case 2: {
+        memory[ADR] = MDR & 0xFF;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+        emit PmMem(memory);
+
+        decideNextPhase();
+        qDebug() << "EX ASL I2";
+        break;
+    }
+    }
+}
+
+void Cpu::asr()
+{
+    switch (cgb->getAndIncrementImpulse()) {
+    case 1: {
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        RBUS = DBUS >> 1;
+        RBUS |= (DBUS & 0x8000);
+        emit ALU(true, false, true, "DR");
+        emit PdALU(true);
+
+        switch (mad) {
+        case AD: {
+            u8 index = IR & 0xF;
+            R[index] = RBUS;
+            emit PmRG(true, index, R[index]);
+
+            decideNextPhase();
+            break;
+        }
+        case AI: case AX:
+            MDR = RBUS;
+            emit PmMDR(true, MDR, true);
+            break;
+        }
+
+        setC(MDR & 1);
+
+        qDebug() << "EX ASL I1";
+        break;
+    }
+    case 2: {
+        memory[ADR] = MDR & 0xFF;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+        emit PmMem(memory);
+
+        decideNextPhase();
+        qDebug() << "EX ASL I2";
+        break;
+    }
+    }
+}
+
 void Cpu::decideNextPhase()
 {
     if(intr)
@@ -816,9 +1051,9 @@ void Cpu::decideNextPhase()
         cgb->setPhase(Phase::IF);
 }
 
-void Cpu::setC(bool isAdding)
+void Cpu::setC(bool value)
 {
-    if(checkC(isAdding)) {
+    if(value) {
         FLAG |= 0b1000;
         emit PmFLAG(true, FLAG);
     }

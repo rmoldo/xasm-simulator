@@ -124,7 +124,7 @@ private:
 
     /* misc */
     void decideNextPhase();
-    void setC(bool isAdding);
+    void setC(bool value);
     void setZ();
     void setS();
     void setV(bool isAdding);
