@@ -1,6 +1,7 @@
 #include "cpu.h"
 
 #include <vector>
+#include <climits>
 #include <QDebug>
 
 Cpu::Cpu(QObject *parent) : QObject(parent)
@@ -396,9 +397,18 @@ void Cpu::execute()
             break;
         case 1:
             add();
+            break;
+        case 2:
+            sub();
+            break;
+        default:
+            qDebug() << "Instruction not defined";
+            break;
         }
+        break;
     }
     default:
+        qDebug() << "Instruction class not defined";
         break;
     }
 }
@@ -453,7 +463,101 @@ void Cpu::mov()
 
 void Cpu::add()
 {
-    //TODO
+    switch (cgb->getAndIncrementImpulse()) {
+    case 1: {
+        SBUS = T;
+        emit PdTS(true);
+
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        RBUS = (short)SBUS + (short)DBUS;
+        emit ALU(true, true, true, "SUM");
+        emit PdALU(true);
+
+        switch (mad) {
+        case AD: {
+            u8 index = IR & 0xF;
+            R[index] = RBUS;
+            emit PmRG(true, index, R[index]);
+
+            decideNextPhase();
+            break;
+        }
+        case AI: case AX:
+            MDR = RBUS;
+            emit PmMDR(true, MDR, true);
+            break;
+        }
+
+        setC(true);
+        setZ();
+        setS();
+        setV(true);
+
+        qDebug() << "EX ADD I1";
+        break;
+    }
+    case 2: {
+        memory[ADR] = MDR & 0xFF;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+        emit PmMem(memory);
+
+        decideNextPhase();
+        qDebug() << "EX ADD I2";
+        break;
+    }
+    }
+}
+
+void Cpu::sub()
+{
+    switch (cgb->getAndIncrementImpulse()) {
+    case 1: {
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        SBUS = ~T + 1; //Cin
+        emit PdTS(true);
+
+        RBUS = (short)DBUS + (short)SBUS;
+        emit ALU(true, true, true, "SUM+C");
+        emit PdALU(true);
+
+        switch (mad) {
+        case AD: {
+            u8 index = IR & 0xF;
+            R[index] = RBUS;
+            emit PmRG(true, index, R[index]);
+
+            decideNextPhase();
+            break;
+        }
+        case AI: case AX:
+            MDR = RBUS;
+            emit PmMDR(true, MDR, true);
+            break;
+        }
+
+        setC(false);
+        setZ();
+        setS();
+        setV(false);
+        qDebug() << "EX SUB I1";
+        break;
+    }
+    case 2: {
+        memory[ADR] = MDR & 0xFF;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+        emit PmMem(memory);
+
+        decideNextPhase();
+        qDebug() << "EX SUB I2";
+        break;
+    }
+    }
 }
 
 void Cpu::decideNextPhase()
@@ -462,6 +566,91 @@ void Cpu::decideNextPhase()
         cgb->setPhase(Phase::INT);
     else
         cgb->setPhase(Phase::IF);
+}
+
+void Cpu::setC(bool isAdding)
+{
+    if(checkC(isAdding)) {
+        FLAG |= 0b1000;
+        emit PmFLAG(true, FLAG);
+    }
+    else {
+        FLAG &= 0b0111;
+        emit PmFLAG(true, FLAG);
+    }
+}
+
+void Cpu::setZ()
+{
+    if(checkZ()) {
+        FLAG |= 0b0100;
+        emit PmFLAG(true, FLAG);
+    }
+    else {
+        FLAG &= 0b1011;
+        emit PmFLAG(true, FLAG);
+    }
+}
+
+void Cpu::setS()
+{
+    if(checkS()) {
+        FLAG |= 0b0010;
+        emit PmFLAG(true, FLAG);
+    }
+    else {
+        FLAG &= 0b1101;
+        emit PmFLAG(true, FLAG);
+    }
+}
+
+void Cpu::setV(bool isAdding)
+{
+    if(checkV(isAdding)) {
+        FLAG |= 0b0001;
+        emit PmFLAG(true, FLAG);
+    }
+    else {
+        FLAG &= 0b1110;
+        emit PmFLAG(true, FLAG);
+    }
+}
+
+//Think this doesn't work
+bool Cpu::checkC(bool isAdding)
+{
+    bool carry;
+
+    if(isAdding)
+        carry = (((short)SBUS > 0) && ((short)DBUS > SHRT_MAX - (short)SBUS));
+    else
+        carry = (((short)SBUS < 0) && ((short)DBUS > SHRT_MIN + (short)SBUS));
+
+    qDebug() << "CARRY: " << carry;
+    return carry;
+}
+
+bool Cpu::checkZ()
+{
+    return RBUS == 0;
+}
+
+bool Cpu::checkS()
+{
+    return RBUS >> 15;
+}
+
+bool Cpu::checkV(bool isAdding)
+{
+    bool dcr;
+    bool carry = checkC(isAdding);
+
+    if(isAdding)
+        dcr = ((~(SBUS ^ DBUS)) >> 15) & ((RBUS >> 15) ^ carry);
+    else
+        dcr = ((SBUS >> 15) ^ (DBUS >> 15)) & ((RBUS >> 15) ^ carry);
+
+    return dcr;
 }
 
 void Cpu::resetActivatedSignals()
@@ -485,5 +674,6 @@ void Cpu::resetActivatedSignals()
     emit PdTS(false);
     emit PmRG(false);
     emit WR(false);
+    emit PmFLAG(false, FLAG);
 }
 

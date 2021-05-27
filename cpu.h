@@ -61,6 +61,7 @@ signals:
     void PdTS(bool active);
     void PmRG(bool active, u8 index = 17, u16 value = 0);
     void WR(bool active, QString operation = "MEMORY");
+    void PmFLAG(bool active, u16 value = 0, bool fromBUS = false);
 
     void PmMem(std::vector<u8> mem);
 
@@ -74,6 +75,7 @@ private:
     /* instructions */
     void mov();
     void add();
+    void sub();
 
     /* Memory */
     std::vector<u8> memory;
@@ -101,6 +103,14 @@ private:
 
     /* misc */
     void decideNextPhase();
+    void setC(bool isAdding);
+    void setZ();
+    void setS();
+    void setV(bool isAdding);
+    bool checkC(bool isAdding);
+    bool checkZ();
+    bool checkS();
+    bool checkV(bool isAdding);
 
     int mas;
     int mad;
