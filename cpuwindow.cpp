@@ -182,6 +182,17 @@ void CPUwindow::connectBackend()
         }
     });
 
+    //loadIVR
+    connect(this->cpu, &Cpu::loadIVR, this, [=](bool active, u16 value) {
+        this->ui->IVRview->setText("0x" + QString::number(value, 16).toUpper());
+
+        if(active) {
+            this->ui->IVRview->setStyleSheet("color: rgb(239, 41, 41);");
+        } else {
+            this->ui->IVRview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
     // PmMDR
     connect(this->cpu, &Cpu::PmMDR, this, [=](bool active, u16 value, bool fromBUS) {
         this->ui->MDRview->setText("0x" + QString::number(value, 16).toUpper());

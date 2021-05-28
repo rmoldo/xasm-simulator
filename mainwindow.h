@@ -27,6 +27,7 @@ private:
     CPUwindow *cpuWindow;
     QAction *stepAction;
     QAction *runAction;
+    QAction *interruptAction;
 
     Cpu *cpu;
 };
