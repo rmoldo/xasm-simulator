@@ -552,8 +552,134 @@ void Cpu::execute()
 
 void Cpu::interrupt()
 {
-   qDebug() << "INT I1";
-   return;
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        SP -= 2;
+        emit SPchanged(true, SP);
+
+        // INTA
+        intr = false;
+
+        qDebug() << " INT I1";
+
+        break;
+    case 2:
+        SBUS = SP;
+        emit PdSPS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        ADR = RBUS;
+        emit PmADR(true, ADR);
+
+        qDebug() << "INT I2";
+
+        break;
+    case 3:
+        SBUS = FLAG;
+        emit PdFLAGS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        MDR = RBUS;
+        emit PmMDR(true, MDR);
+
+        qDebug() << "INT I3";
+
+        break;
+    case 4:
+        memory[ADR] = MDR & 0xff;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+
+        SP -= 2;
+        emit SPchanged(true, SP);
+
+        qDebug() << "INT I4";
+
+        break;
+    case 5:
+        SBUS = SP;
+        emit PdSPS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        ADR = RBUS;
+        emit PmADR(true, ADR);
+
+        qDebug() << "INT I5";
+
+        break;
+    case 6:
+        SBUS = PC;
+        emit PdPCS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        MDR = RBUS;
+        emit PmMDR(true, MDR);
+
+        qDebug() << "INT I6";
+
+        break;
+    case 7:
+        memory[ADR] = MDR & 0xff;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+
+        qDebug() << "INT I7";
+
+        break;
+    case 8:
+        SBUS = IVR;
+        emit PdIVRS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        ADR = RBUS;
+        emit PmADR(true, ADR);
+
+        qDebug() << "INT I8";
+
+        break;
+    case 9:
+        MDR = (memory[ADR + 1] << 8) | memory[ADR];
+        emit RD(true, "READ");
+        emit PmMDR(true, MDR);
+
+        qDebug() << "INT I9";
+
+        break;
+    case 10:
+        SBUS = MDR;
+        emit PdMDRS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        PC = RBUS;
+        emit PmPC(true, PC);
+
+        decideNextPhase();
+
+        qDebug() << "INT I10";
+
+        break;
+    default:
+        qDebug() << "ERROR INTERRUPT";
+        break;
+    }
 }
 
 void Cpu::mov()
@@ -2032,5 +2158,5 @@ void Cpu::resetActivatedSignals()
     emit PmPC(false, PC);
     emit PdSPS(false);
     emit PdFLAGS(false);
+    emit PdIVRS(false);
 }
-

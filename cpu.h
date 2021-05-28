@@ -68,6 +68,7 @@ signals:
     void PdSPS(bool active);
     void SPchanged(bool active, u16 value = 0);
     void PdFLAGS(bool active);
+    void PdIVRS(bool active);
 
 private:
     // Phases
