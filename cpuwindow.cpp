@@ -285,6 +285,19 @@ void CPUwindow::connectBackend()
         }
     });
 
+    // PdIVRS
+    connect(this->cpu, &Cpu::PdIVRS, this, [=](bool active) {
+        if(active) {
+            this->ui->IVRlineS->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->SBUSview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->IVRlineS->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->SBUSview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
+
     // PmSBUS
     connect(this->cpu, &Cpu::PmSBUS, this, [=](bool active) {
         if(active) {
