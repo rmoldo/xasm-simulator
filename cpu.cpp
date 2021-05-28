@@ -479,6 +479,71 @@ void Cpu::execute()
         }
         break;
     }
+    case InstructionClass::b4: {
+        switch (IR & 0xff) {
+        case 0:
+            clc();
+            break;
+        case 1:
+            clv();
+            break;
+        case 2:
+            clz();
+            break;
+        case 3:
+            cls();
+            break;
+        case 4:
+            ccc();
+            break;
+        case 5:
+            sec();
+            break;
+        case 6:
+            sev();
+            break;
+        case 7:
+            sez();
+            break;
+        case 8:
+            ses();
+            break;
+        case 9:
+            scc();
+            break;
+        case 10:
+            nop();
+            break;
+        case 11:
+            ret();
+            break;
+        case 12:
+            reti();
+            break;
+        case 13:
+            uhalt();
+            break;
+        case 14:
+            // wait();
+            break;
+        case 15:
+            pushpc();
+            break;
+        case 16:
+            poppc();
+            break;
+        case 17:
+            pushflag();
+            break;
+        case 18:
+            popflag();
+            break;
+        default:
+            qDebug() << "Instruction not defined";
+        }
+
+        break;
+    }
     default:
         qDebug() << "Instruction class not defined";
         break;
@@ -1329,6 +1394,525 @@ void Cpu::bvc() {
     }
 }
 
+void Cpu::clc() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        // Reset C bit in flag register
+        FLAG &= 0xfff7;
+        emit PmFLAG(true, FLAG);
+
+        decideNextPhase();
+        qDebug() << "EX CLC I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX CLC";
+        break;
+    }
+}
+
+void Cpu::clv() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        // Reset V bit in flag register
+        FLAG &= 0xfffe;
+        emit PmFLAG(true, FLAG);
+
+        decideNextPhase();
+        qDebug() << "EX CLV I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX CLV";
+        break;
+    }
+}
+
+void Cpu::clz() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        // Reset Z bit in flag register
+        FLAG &= 0xfffb;
+        emit PmFLAG(true, FLAG);
+
+        decideNextPhase();
+        qDebug() << "EX CLZ I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX CLZ";
+        break;
+    }
+}
+
+void Cpu::cls() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        // Reset S bit in flag register
+        FLAG &= 0xfffd;
+        emit PmFLAG(true, FLAG);
+
+        decideNextPhase();
+        qDebug() << "EX CLS I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX CLS";
+        break;
+    }
+}
+
+void Cpu::ccc() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        // Reset CZSV bit in flag register
+        FLAG &= 0xfff0;
+        emit PmFLAG(true, FLAG);
+
+        decideNextPhase();
+        qDebug() << "EX CCC I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX CCC";
+        break;
+    }
+}
+
+void Cpu::sec() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        // Set C bit in flag register
+        FLAG |= 0x0008;
+        emit PmFLAG(true, FLAG);
+
+        decideNextPhase();
+        qDebug() << "EX SEC I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX SEC";
+        break;
+    }
+}
+
+void Cpu::sev() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        // Set V bit in flag register
+        FLAG |= 0x0001;
+        emit PmFLAG(true, FLAG);
+
+        decideNextPhase();
+        qDebug() << "EX SEV I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX SEV";
+        break;
+    }
+}
+
+void Cpu::sez() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        // Get Z bit in flag register
+        FLAG |= 0x0004;
+        emit PmFLAG(true, FLAG);
+
+        decideNextPhase();
+        qDebug() << "EX SEZ I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX SEZ";
+        break;
+    }
+}
+
+void Cpu::ses() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        // Set S bit in flag register
+        FLAG |= 0x0002;
+        emit PmFLAG(true, FLAG);
+
+        decideNextPhase();
+        qDebug() << "EX SES I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX SES";
+        break;
+    }
+}
+
+void Cpu::scc() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        // Set CZSV bits in flag register
+        FLAG |= 0x000f;
+        emit PmFLAG(true, FLAG);
+
+        decideNextPhase();
+        qDebug() << "EX SCC I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX SCC";
+        break;
+    }
+}
+
+void Cpu::nop() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        decideNextPhase();
+        qDebug() << "EX NOP I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX NOP";
+        break;
+    }
+}
+
+void Cpu::ret() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        SBUS = SP;
+        emit PdSPS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        ADR = RBUS;
+        emit PmADR(true, ADR);
+
+        qDebug() << "EX RET I1";
+
+        break;
+    case 2:
+        MDR = (memory[ADR + 1] << 8) | memory[ADR];
+        emit RD(true, "READ");
+        emit PmMDR(true, MDR);
+
+        qDebug() << "EX RET I2";
+
+        break;
+    case 3:
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        RBUS = DBUS;
+        emit ALU(true, false, true, "DBUS");
+        emit PdALU(true);
+
+        PC = RBUS;
+        emit PmPC(true, PC);
+
+        SP += 2;
+        emit SPchanged(true, SP);
+
+        decideNextPhase();
+
+        qDebug() << "EX RET I3";
+
+        break;
+    default:
+        qDebug() << "ERROR EX RET";
+        break;
+    }
+}
+
+void Cpu::reti() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        SBUS = SP;
+        emit PdSPS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        ADR = RBUS;
+        emit PmADR(true, ADR);
+
+        qDebug() << "EX RETI I1";
+
+        break;
+    case 2:
+        MDR = (memory[ADR + 1] << 8) | memory[ADR];
+        emit RD(true, "READ");
+        emit PmMDR(true, MDR);
+
+        qDebug() << "EX RETI I2";
+
+        break;
+    case 3:
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        RBUS = DBUS;
+        emit ALU(true, false, true, "DBUS");
+        emit PdALU(true);
+
+        PC = RBUS;
+        emit PmPC(true, PC);
+
+        SP += 2;
+        emit SPchanged(true, SP);
+
+        qDebug() << "EX RETI I3";
+
+        break;
+    case 4:
+        SBUS = SP;
+        emit PdSPS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        ADR = RBUS;
+        emit PmADR(true, ADR);
+
+        qDebug() << "EX RETI I4";
+
+        break;
+    case 5:
+        MDR = (memory[ADR + 1] << 8) | memory[ADR];
+        emit RD(true, "READ");
+        emit PmMDR(true, MDR);
+
+        qDebug() << "EX RETI I5";
+
+        break;
+    case 6:
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        RBUS = DBUS;
+        emit ALU(true, false, true, "DBUS");
+        emit PdALU(true);
+
+        FLAG = RBUS;
+        emit PmFLAG(true, FLAG, true);
+
+        SP += 2;
+        emit SPchanged(true, SP);
+
+        decideNextPhase();
+
+        qDebug() << "EX RETI I6";
+
+        break;
+    default:
+        qDebug() << "ERROR EX RETI";
+    }
+}
+
+void Cpu::pushpc() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        SP -= 2;
+        emit SPchanged(true, SP);
+
+        qDebug() << "EX PUSHPC I1";
+
+        break;
+    case 2:
+        SBUS = SP;
+        emit PdSPS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        ADR = RBUS;
+        emit PmADR(true, ADR);
+
+        qDebug() << "EX PUSHPC I2";
+
+        break;
+    case 3:
+        SBUS = PC;
+        emit PdPCS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        MDR = RBUS;
+        emit PmMDR(true, MDR);
+
+        qDebug() << "EX PUSHPC I3";
+
+        break;
+    case 4:
+        memory[ADR] = MDR & 0xff;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+
+        decideNextPhase();
+
+        qDebug() << "EX PUSHPC I4";
+
+        break;
+    default:
+        qDebug() << "ERROR EX PUSHPC";
+        break;
+    }
+}
+
+void Cpu::poppc() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        SBUS = SP;
+        emit PdSPS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        ADR = RBUS;
+        emit PmADR(true, ADR);
+
+        qDebug() << "EX POPPC I1";
+
+        break;
+    case 2:
+        MDR = (memory[ADR + 1] << 8) | memory[ADR];
+        emit RD(true, "READ");
+        emit PmMDR(true, MDR);
+
+        qDebug() << "EX POPPC I2";
+
+        break;
+    case 3:
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        RBUS = DBUS;
+        emit ALU(true, false, true, "DBUS");
+        emit PdALU(true);
+
+        PC = RBUS;
+        emit PmPC(true, PC);
+
+        SP += 2;
+        emit SPchanged(true, SP);
+
+        decideNextPhase();
+
+        break;
+    default:
+        qDebug() << "ERROR EX POPPC";
+    }
+}
+
+void Cpu::pushflag() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        SP -= 2;
+        emit SPchanged(true, SP);
+
+        qDebug() << "EX PUSHFLAG I1";
+
+        break;
+    case 2:
+        SBUS = SP;
+        emit PdSPS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        ADR = RBUS;
+        emit PmADR(true, ADR);
+
+        qDebug() << "EX PUSHFLAG I2";
+
+        break;
+    case 3:
+        SBUS = FLAG;
+        emit PdFLAGS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        MDR = RBUS;
+        emit PmMDR(true, MDR);
+
+        qDebug() << "EX PUSHFLAG I3";
+
+        break;
+    case 4:
+        memory[ADR] = MDR & 0xff;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+
+        decideNextPhase();
+
+        qDebug() << "EX PUSHFLAG I4";
+
+        break;
+    default:
+        qDebug() << "ERROR EX PUSHFLAG";
+        break;
+    }
+}
+
+void Cpu::popflag() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        SBUS = SP;
+        emit PdSPS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        ADR = RBUS;
+        emit PmADR(true, ADR);
+
+        qDebug() << "EX POPFLAG I1";
+
+        break;
+    case 2:
+        MDR = (memory[ADR + 1] << 8) | memory[ADR];
+        emit RD(true, "READ");
+        emit PmMDR(true, MDR);
+
+        qDebug() << "EX POPFLAG I2";
+
+        break;
+    case 3:
+        DBUS = MDR;
+        emit PdMDRD(true);
+
+        RBUS = DBUS;
+        emit ALU(true, false, true, "DBUS");
+        emit PdALU(true);
+
+        FLAG = RBUS;
+        emit PmFLAG(true, FLAG, true);
+
+        SP += 2;
+        emit SPchanged(true, SP);
+
+        decideNextPhase();
+
+        qDebug() << "EX POPFLAG I3";
+
+        break;
+    default:
+        qDebug() << "ERROR EX POPPC";
+    }
+}
+
 void Cpu::decideNextPhase()
 {
     if(intr)
@@ -1431,6 +2015,7 @@ void Cpu::resetActivatedSignals()
     emit RD(false);
     emit PmIR(false, IR);
     emit PCchanged(false, PC);
+    emit SPchanged(false, SP);
     emit PmT(false, T);
     emit PdRGS(false);
     emit PmMDR(false, MDR);
@@ -1445,5 +2030,7 @@ void Cpu::resetActivatedSignals()
     emit WR(false);
     emit PmFLAG(false, FLAG);
     emit PmPC(false, PC);
+    emit PdSPS(false);
+    emit PdFLAGS(false);
 }
 

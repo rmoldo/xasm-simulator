@@ -141,6 +141,19 @@ void CPUwindow::connectBackend()
         }
     });
 
+    // +/-2SP
+    connect(this->cpu, &Cpu::SPchanged, this, [=](bool active, u16 value) {
+        this->ui->SPview->setText("0x" + QString::number(value, 16).toUpper());
+
+        if(active) {
+            this->ui->SPview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->SPview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
+
     // PmT
     connect(this->cpu, &Cpu::PmT, this, [=](bool active, u16 value) {
         this->ui->Tview->setText("0x" + QString::number(value, 16).toUpper());
@@ -244,6 +257,30 @@ void CPUwindow::connectBackend()
         }
         else {
             this->ui->TlineS->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->SBUSview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
+    // PdSPS
+    connect(this->cpu, &Cpu::PdSPS, this, [=](bool active) {
+        if(active) {
+            this->ui->SPlineS->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->SBUSview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->SPlineS->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->SBUSview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
+    // PdFLAGS
+    connect(this->cpu, &Cpu::PdFLAGS, this, [=](bool active) {
+        if(active) {
+            this->ui->FLAGlineS->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->SBUSview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->FLAGlineS->setStyleSheet("color: rgb(0, 0, 0);");
             this->ui->SBUSview->setStyleSheet("color: rgb(0, 0, 0);");
         }
     });

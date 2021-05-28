@@ -65,6 +65,9 @@ signals:
     void PmPC(bool active, u16 value = 0);
     void PmMem(std::vector<u8> mem);
     void PmSBUS(bool active);
+    void PdSPS(bool active);
+    void SPchanged(bool active, u16 value = 0);
+    void PdFLAGS(bool active);
 
 private:
     // Phases
@@ -108,6 +111,27 @@ private:
     void bcc();
     void bvs();
     void bvc();
+
+    // b4 class
+    void clc();
+    void clv();
+    void clz();
+    void cls();
+    void ccc();
+    void sec();
+    void sev();
+    void sez();
+    void ses();
+    void scc();
+    void nop();
+    void ret();
+    void reti();
+    void uhalt();
+    void wait();
+    void pushpc();
+    void poppc();
+    void pushflag();
+    void popflag();
 
     /* Memory */
     std::vector<u8> memory;
