@@ -9,5 +9,6 @@
         <file>resources/assembler/xasm</file>
         <file>resources/icons/run.svg</file>
         <file>resources/icons/step.svg</file>
+        <file>resources/icons/interrupt.svg</file>
     </qresource>
 </RCC>
