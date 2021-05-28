@@ -564,9 +564,6 @@ void Cpu::interrupt()
         SP -= 2;
         emit SPchanged(true, SP);
 
-        // INTA
-        intr = false;
-
         qDebug() << "INT I1";
 
         break;
@@ -658,7 +655,8 @@ void Cpu::interrupt()
 
         qDebug() << "INT I8";
 
-        decideNextPhase();
+        // Unconditional set instruction fetch
+        cgb->setPhase(Phase::IF);
 
         break;
     default:
