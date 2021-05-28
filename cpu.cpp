@@ -161,7 +161,6 @@ void Cpu::instructionFetch()
         reason = "Impulses out of range for Instruction Fetch phase";
         break;
     }
-
 }
 
 void Cpu::operandFetch()
