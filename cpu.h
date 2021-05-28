@@ -62,8 +62,12 @@ signals:
     void PmRG(bool active, u8 index = 17, u16 value = 0);
     void WR(bool active, QString operation = "MEMORY");
     void PmFLAG(bool active, u16 value = 0, bool fromBUS = false);
-
+    void PmPC(bool active, u16 value = 0);
     void PmMem(std::vector<u8> mem);
+    void PmSBUS(bool active);
+    void PdSPS(bool active);
+    void SPchanged(bool active, u16 value = 0);
+    void PdFLAGS(bool active);
 
 private:
     // Phases
@@ -73,9 +77,61 @@ private:
     void interrupt();
 
     /* instructions */
+    // b1 class
     void mov();
     void add();
     void sub();
+    void cmp();
+    void AND();
+    void OR();
+    void XOR();
+
+    // b2 class
+    void clr();
+    void neg();
+    void inc();
+    void dec();
+    void asl();
+    void asr();
+    void lsr();
+    void ror();
+    void rlc();
+    void rrc();
+    void jmp();
+    void call();
+    void pushRi();
+    void popRi();
+
+    // b3 class
+    void br();
+    void bne();
+    void beq();
+    void bpl();
+    void bcs();
+    void bcc();
+    void bvs();
+    void bvc();
+
+    // b4 class
+    void clc();
+    void clv();
+    void clz();
+    void cls();
+    void ccc();
+    void sec();
+    void sev();
+    void sez();
+    void ses();
+    void scc();
+    void nop();
+    void ret();
+    void reti();
+    void uhalt();
+    void wait();
+    void pushpc();
+    void poppc();
+    void pushflag();
+    void popflag();
 
     /* Memory */
     std::vector<u8> memory;
@@ -103,7 +159,7 @@ private:
 
     /* misc */
     void decideNextPhase();
-    void setC(bool isAdding);
+    void setC(bool value);
     void setZ();
     void setS();
     void setV(bool isAdding);
