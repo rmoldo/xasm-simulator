@@ -521,7 +521,7 @@ void Cpu::execute()
             reti();
             break;
         case 13:
-            uhalt();
+            // uhalt();
             break;
         case 14:
             // wait();
