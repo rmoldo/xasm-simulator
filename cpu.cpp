@@ -1629,6 +1629,8 @@ void Cpu::ret() {
 void Cpu::reti() {
     switch(cgb->getAndIncrementImpulse()) {
     case 1:
+        intr = false;
+
         SBUS = SP;
         emit PdSPS(true);
 
