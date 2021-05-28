@@ -8,6 +8,10 @@ Cpu::Cpu(QObject *parent) : QObject(parent)
 {
     memory = std::vector<u8>(1 << 16, 0);
 
+    // Set RETI
+    memory[1000] = 0x0c;
+    memory[1001] = 0xc0;
+
     // Clear buses
     SBUS = 0;
     DBUS = 0;
@@ -81,6 +85,10 @@ void Cpu::setMachineCodeInMemory(u8 *data, size_t size) {
     std::fill(memory.begin(), memory.end(), 0x0);
     memory.erase(memory.begin(), memory.begin() + size);
     memory.insert(memory.begin(), data, data + size);
+
+    // Set RETI
+    memory[1000] = 0x0c;
+    memory[1001] = 0xc0;
 }
 
 void Cpu::instructionFetch()
@@ -559,7 +567,7 @@ void Cpu::interrupt()
         // INTA
         intr = false;
 
-        qDebug() << " INT I1";
+        qDebug() << "INT I1";
 
         break;
     case 2:
@@ -645,34 +653,12 @@ void Cpu::interrupt()
         emit ALU(true, true, false, "SBUS");
         emit PdALU(true);
 
-        ADR = RBUS;
-        emit PmADR(true, ADR);
+        PC = RBUS;
+        emit PmPC(true, ADR);
 
         qDebug() << "INT I8";
 
-        break;
-    case 9:
-        MDR = (memory[ADR + 1] << 8) | memory[ADR];
-        emit RD(true, "READ");
-        emit PmMDR(true, MDR);
-
-        qDebug() << "INT I9";
-
-        break;
-    case 10:
-        SBUS = MDR;
-        emit PdMDRS(true);
-
-        RBUS = SBUS;
-        emit ALU(true, true, false, "SBUS");
-        emit PdALU(true);
-
-        PC = RBUS;
-        emit PmPC(true, PC);
-
         decideNextPhase();
-
-        qDebug() << "INT I10";
 
         break;
     default:
@@ -2158,4 +2144,12 @@ void Cpu::resetActivatedSignals()
     emit PdSPS(false);
     emit PdFLAGS(false);
     emit PdIVRS(false);
+    emit loadIVR(false, IVR);
+}
+
+void Cpu::setInterrupt()
+{
+    intr = true;
+    IVR = 1000;
+    emit loadIVR(true, IVR);
 }
