@@ -155,6 +155,20 @@ void CPUwindow::connectBackend()
         }
     });
 
+    // PmPC
+    connect(this->cpu, &Cpu::PmPC, this, [=](bool active, u16 value) {
+        this->ui->PCview->setText("0x" + QString::number(value, 16).toUpper());
+
+        if(active) {
+            this->ui->PClineR->setStyleSheet("color: rgb(239, 41, 41);");
+            this->ui->PCview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
+            this->ui->PClineR->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->PCview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
     // PmMDR
     connect(this->cpu, &Cpu::PmMDR, this, [=](bool active, u16 value, bool fromBUS) {
         this->ui->MDRview->setText("0x" + QString::number(value, 16).toUpper());
@@ -230,6 +244,16 @@ void CPUwindow::connectBackend()
         }
         else {
             this->ui->TlineS->setStyleSheet("color: rgb(0, 0, 0);");
+            this->ui->SBUSview->setStyleSheet("color: rgb(0, 0, 0);");
+        }
+    });
+
+    // PmSBUS
+    connect(this->cpu, &Cpu::PmSBUS, this, [=](bool active) {
+        if(active) {
+            this->ui->SBUSview->setStyleSheet("color: rgb(239, 41, 41);");
+        }
+        else {
             this->ui->SBUSview->setStyleSheet("color: rgb(0, 0, 0);");
         }
     });

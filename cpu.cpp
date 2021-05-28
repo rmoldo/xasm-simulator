@@ -448,6 +448,37 @@ void Cpu::execute()
         }
         break;
     }
+    case InstructionClass::b3: {
+        switch ((IR >> 7) & 0xf) {
+        case 0:
+            br();
+            break;
+        case 1:
+            bne();
+            break;
+        case 2:
+            beq();
+            break;
+        case 3:
+            bpl();
+            break;
+        case 4:
+            bcs();
+            break;
+        case 5:
+            bcc();
+            break;
+        case 6:
+            bvs();
+            break;
+        case 7:
+            bvc();
+            break;
+        default:
+            qDebug() << "Instruction not defined";
+        }
+        break;
+    }
     default:
         qDebug() << "Instruction class not defined";
         break;
@@ -1043,6 +1074,261 @@ void Cpu::asr()
     }
 }
 
+void Cpu::br() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        SBUS = IR & 0xff;
+        emit PmSBUS(true);
+
+        // sign extend if negative
+        if (SBUS & 0x80)
+            SBUS |= 0xff00;
+
+        DBUS = PC;
+        emit PdPCD(true);
+
+        RBUS = (u16)((short)SBUS + (short)DBUS);
+        emit ALU(true, true, true, "SUM");
+        emit PdALU(true);
+
+        PC = RBUS;
+
+        emit PmPC(true, PC);
+
+        decideNextPhase();
+
+        qDebug() << "EX BR I1";
+        break;
+    default:
+        qDebug() << "ERROR EX BR";
+        break;
+    }
+}
+
+void Cpu::bne() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        SBUS = IR & 0xff;
+        emit PmSBUS(true);
+
+        // sign extend if negative
+        if (SBUS & 0x80)
+            SBUS |= 0xff00;
+
+        DBUS = PC;
+        emit PdPCD(true);
+
+        RBUS = (u16)((short)SBUS + (short)DBUS);
+        emit ALU(true, true, true, "SUM");
+        emit PdALU(true);
+
+        if (((FLAG >> 2) & 0x1) == 0) {
+            PC = RBUS;
+            emit PmPC(true, PC);
+        }
+
+        decideNextPhase();
+        qDebug() << "EX BNE I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX BNQ";
+        break;
+    }
+}
+
+void Cpu::beq() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        SBUS = IR & 0xff;
+        emit PmSBUS(true);
+
+        // sign extend if negative
+        if (SBUS & 0x80)
+            SBUS |= 0xff00;
+
+        DBUS = PC;
+        emit PdPCD(true);
+
+        RBUS = (u16)((short)SBUS + (short)DBUS);
+        emit ALU(true, true, true, "SUM");
+        emit PdALU(true);
+
+        if (((FLAG >> 2) & 1) == 1) {
+            PC = RBUS;
+            emit PmPC(true, PC);
+        }
+
+        decideNextPhase();
+        qDebug() << "EX BEQ I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX BEQ";
+        break;
+    }
+}
+
+void Cpu::bpl() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        SBUS = IR & 0xff;
+        emit PmSBUS(true);
+
+        // sign extend if negative
+        if (SBUS & 0x80)
+            SBUS |= 0xff00;
+
+        DBUS = PC;
+        emit PdPCD(true);
+
+        RBUS = (u16)((short)SBUS + (short)DBUS);
+        emit ALU(true, true, true, "SUM");
+        emit PdALU(true);
+
+        if (((FLAG >> 1) & 1) == 0) {
+            PC = RBUS;
+            emit PmPC(true, PC);
+        }
+
+        decideNextPhase();
+        qDebug() << "EX BPL I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX BPL";
+        break;
+    }
+}
+
+void Cpu::bcs() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        SBUS = IR & 0xff;
+        emit PmSBUS(true);
+
+        // sign extend
+        if (SBUS & 0x80)
+            SBUS |= 0xff00;
+
+        DBUS = PC;
+        emit PdPCD(true);
+
+        RBUS = (u16)((short)SBUS + (short)DBUS);
+        emit ALU(true, true, true, "SUM");
+        emit PdALU(true);
+
+        if (((FLAG >> 3) & 1) == 1) {
+            PC = RBUS;
+            emit PmPC(true, PC);
+        }
+
+        decideNextPhase();
+        qDebug() << "EX BCS I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX BCS";
+        break;
+    }
+}
+
+void Cpu::bcc() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        SBUS = IR & 0xff;
+        emit PmSBUS(true);
+
+        // sign extend
+        if (SBUS & 0x80)
+            SBUS |= 0xff00;
+
+        DBUS = PC;
+        emit PdPCD(true);
+
+        RBUS = (u16)((short)SBUS + (short)DBUS);
+        emit ALU(true, true, true, "SUM");
+        emit PdALU(true);
+
+        if (((FLAG >> 3) & 1) == 0) {
+            PC = RBUS;
+            emit PmPC(true, PC);
+        }
+
+        decideNextPhase();
+        qDebug() << "EX BCC I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX BCC";
+        break;
+    }
+}
+
+void Cpu::bvs() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        SBUS = IR & 0xff;
+        emit PmSBUS(true);
+
+        // sign extend if negative
+        if (SBUS & 0x80)
+            SBUS |= 0xff00;
+
+        DBUS = PC;
+        emit PdPCD(true);
+
+        RBUS = (u16)((short)SBUS + (short)DBUS);
+        emit ALU(true, true, true, "SUM");
+        emit PdALU(true);
+
+        if ((FLAG & 1) == 1) {
+            PC = RBUS;
+            emit PmPC(true, PC);
+        }
+
+        decideNextPhase();
+        qDebug() << "EX BVS I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX BVS";
+        break;
+    }
+}
+
+void Cpu::bvc() {
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        SBUS = IR & 0xff;
+        emit PmSBUS(true);
+
+        // sign extend
+        if (SBUS & 0x80)
+            SBUS |= 0xff00;
+
+        DBUS = PC;
+        emit PdPCD(true);
+
+        RBUS = (u16)((short)SBUS + (short)DBUS);
+        emit ALU(true, true, true, "SUM");
+        emit PdALU(true);
+
+        if ((FLAG & 1) == 0) {
+            PC = RBUS;
+            emit PmPC(true, PC);
+        }
+
+        decideNextPhase();
+        qDebug() << "EX BVC I1";
+
+        break;
+    default:
+        qDebug() << "ERROR EX BVC";
+        break;
+    }
+}
+
 void Cpu::decideNextPhase()
 {
     if(intr)
@@ -1158,5 +1444,6 @@ void Cpu::resetActivatedSignals()
     emit PmRG(false);
     emit WR(false);
     emit PmFLAG(false, FLAG);
+    emit PmPC(false, PC);
 }
 

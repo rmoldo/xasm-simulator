@@ -62,8 +62,9 @@ signals:
     void PmRG(bool active, u8 index = 17, u16 value = 0);
     void WR(bool active, QString operation = "MEMORY");
     void PmFLAG(bool active, u16 value = 0, bool fromBUS = false);
-
+    void PmPC(bool active, u16 value = 0);
     void PmMem(std::vector<u8> mem);
+    void PmSBUS(bool active);
 
 private:
     // Phases
@@ -82,7 +83,7 @@ private:
     void OR();
     void XOR();
 
-    // b2
+    // b2 class
     void clr();
     void neg();
     void inc();
@@ -97,6 +98,16 @@ private:
     void call();
     void pushRi();
     void popRi();
+
+    // b3 class
+    void br();
+    void bne();
+    void beq();
+    void bpl();
+    void bcs();
+    void bcc();
+    void bvs();
+    void bvc();
 
     /* Memory */
     std::vector<u8> memory;
