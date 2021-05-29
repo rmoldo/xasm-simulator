@@ -3,7 +3,6 @@
 #include <vector>
 #include <climits>
 #include <QDebug>
-#include <thread>
 
 Cpu::Cpu(QObject *parent) : QObject(parent)
 {
