@@ -8,6 +8,10 @@ Cpu::Cpu(QObject *parent) : QObject(parent)
 {
     memory = std::vector<u8>(1 << 16, 0);
 
+    // Set RETI
+    memory[1000] = 0x0c;
+    memory[1001] = 0xc0;
+
     // Clear buses
     SBUS = 0;
     DBUS = 0;
@@ -81,6 +85,10 @@ void Cpu::setMachineCodeInMemory(u8 *data, size_t size) {
     std::fill(memory.begin(), memory.end(), 0x0);
     memory.erase(memory.begin(), memory.begin() + size);
     memory.insert(memory.begin(), data, data + size);
+
+    // Set RETI
+    memory[1000] = 0x0c;
+    memory[1001] = 0xc0;
 }
 
 void Cpu::instructionFetch()
@@ -161,7 +169,6 @@ void Cpu::instructionFetch()
         reason = "Impulses out of range for Instruction Fetch phase";
         break;
     }
-
 }
 
 void Cpu::operandFetch()
@@ -552,8 +559,110 @@ void Cpu::execute()
 
 void Cpu::interrupt()
 {
-   qDebug() << "INT I1";
-   return;
+    switch(cgb->getAndIncrementImpulse()) {
+    case 1:
+        SP -= 2;
+        emit SPchanged(true, SP);
+
+        qDebug() << "INT I1";
+
+        break;
+    case 2:
+        SBUS = SP;
+        emit PdSPS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        ADR = RBUS;
+        emit PmADR(true, ADR);
+
+        qDebug() << "INT I2";
+
+        break;
+    case 3:
+        SBUS = FLAG;
+        emit PdFLAGS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        MDR = RBUS;
+        emit PmMDR(true, MDR);
+
+        qDebug() << "INT I3";
+
+        break;
+    case 4:
+        memory[ADR] = MDR & 0xff;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+
+        SP -= 2;
+        emit SPchanged(true, SP);
+
+        qDebug() << "INT I4";
+
+        break;
+    case 5:
+        SBUS = SP;
+        emit PdSPS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        ADR = RBUS;
+        emit PmADR(true, ADR);
+
+        qDebug() << "INT I5";
+
+        break;
+    case 6:
+        SBUS = PC;
+        emit PdPCS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        MDR = RBUS;
+        emit PmMDR(true, MDR);
+
+        qDebug() << "INT I6";
+
+        break;
+    case 7:
+        memory[ADR] = MDR & 0xff;
+        memory[ADR + 1] = MDR >> 8;
+        emit WR(true, "WRITE");
+
+        qDebug() << "INT I7";
+
+        break;
+    case 8:
+        SBUS = IVR;
+        emit PdIVRS(true);
+
+        RBUS = SBUS;
+        emit ALU(true, true, false, "SBUS");
+        emit PdALU(true);
+
+        PC = RBUS;
+        emit PmPC(true, ADR);
+
+        qDebug() << "INT I8";
+
+        // Unconditional set instruction fetch
+        cgb->setPhase(Phase::IF);
+
+        break;
+    default:
+        qDebug() << "ERROR INTERRUPT";
+        break;
+    }
 }
 
 void Cpu::mov()
@@ -2034,5 +2143,13 @@ void Cpu::resetActivatedSignals()
     emit PmPC(false, PC);
     emit PdSPS(false);
     emit PdFLAGS(false);
+    emit PdIVRS(false);
+    emit loadIVR(false, IVR);
 }
 
+void Cpu::setInterrupt()
+{
+    intr = true;
+    IVR = 1000;
+    emit loadIVR(true, IVR);
+}

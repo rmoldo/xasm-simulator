@@ -36,6 +36,7 @@ public:
 
     //// Resets all cpuwindow activated components
     void resetActivatedSignals();
+    void setInterrupt();
 
 public slots:
     void setMachineCodeInMemory(u8 *data, size_t size);
@@ -68,6 +69,8 @@ signals:
     void PdSPS(bool active);
     void SPchanged(bool active, u16 value = 0);
     void PdFLAGS(bool active);
+    void PdIVRS(bool active);
+    void loadIVR(bool active, u16 value = 0);
 
 private:
     // Phases

@@ -114,9 +114,12 @@ void MainWindow::createActions() {
             cpu = new Cpu(this);
             cpuWindow->setCpu(cpu);
             memoryViewerDialog->setCpu(cpu);
+
             messageBox.information(this, "Success", "Assembled successfully!\nNow you can start the simulation.");
+
             stepAction->setEnabled(true);
             runAction->setEnabled(true);
+            interruptAction->setEnabled(true);
             viewMemoryAction->setEnabled(true);
 
             QFile machineCodeFile {"output.out"};
@@ -174,4 +177,18 @@ void MainWindow::createActions() {
     runAction->setEnabled(false);
     executeMenu->addAction(runAction);
     executeToolBar->addAction(runAction);
+
+    // Interrupt action
+    interruptAction = new QAction(tr("&Interrupt"), this);
+    interruptAction->setIcon(QPixmap(":/rec/resources/icons/interrupt.svg"));
+    interruptAction->setShortcut(QKeySequence(tr("Ctrl+I")));
+    interruptAction->setStatusTip(tr("Enable interrupt"));
+
+    connect(interruptAction, &QAction::triggered, this, [=](){
+        cpu->setInterrupt();
+    });
+
+    interruptAction->setEnabled(false);
+    executeMenu->addAction(interruptAction);
+    executeToolBar->addAction(interruptAction);
 }
