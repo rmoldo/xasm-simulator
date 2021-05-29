@@ -97,6 +97,7 @@ private:
     void asl();
     void asr();
     void lsr();
+    void rol();
     void ror();
     void rlc();
     void rrc();
