@@ -997,7 +997,7 @@ void Cpu::clr()
     switch (cgb->getAndIncrementImpulse()) {
     case 1: {
         SBUS = 0;
-        //shall we emit something?
+        emit PmSBUS(true);
 
         RBUS = SBUS;
         emit ALU(true, true, false, "SBUS");
@@ -1089,8 +1089,7 @@ void Cpu::inc()
         emit PdMDRD(true);
 
         SBUS = 0;
-        //emit something?
-
+        emit PmSBUS(true);
 
         RBUS = SBUS + DBUS + 1; //Cin
         emit ALU(true, true, true, "SUM+C");
@@ -1140,8 +1139,7 @@ void Cpu::dec()
         emit PdMDRD(true);
 
         SBUS = (short) - 1;
-        //emit something?
-
+        emit PmSBUS(true);
 
         RBUS = SBUS + DBUS;
         emit ALU(true, true, true, "SUM");
