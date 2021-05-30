@@ -480,7 +480,7 @@ void Cpu::execute()
         break;
     }
     case InstructionClass::b3: {
-        switch ((IR >> 7) & 0xf) {
+        switch ((IR >> 8) & 0xf) {
         case 0:
             br();
             break;
