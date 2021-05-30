@@ -1534,12 +1534,13 @@ void Cpu::call()
         T = RBUS;
         emit PmT(true, T);
 
-        qDebug() << "EX JMP I1";
+        qDebug() << "EX CALL I1";
         break;
     case 2:
         SP -= 2;
         emit SPchanged(true, SP);
 
+        qDebug() << "EX CALL I2";
         break;
     case 3:
         SBUS = SP;
@@ -1552,6 +1553,7 @@ void Cpu::call()
         ADR = RBUS;
         emit PmADR(true, ADR);
 
+        qDebug() << "EX CALL I3";
         break;
     case 4:
         SBUS = PC;
@@ -1564,6 +1566,7 @@ void Cpu::call()
         MDR = RBUS;
         emit PmMDR(true, MDR);
 
+        qDebug() << "EX CALL I4";
         break;
     case 5:
         memory[ADR] = MDR & 0xff;
@@ -1572,6 +1575,7 @@ void Cpu::call()
         emit WR(true, "WRITE");
         emit PmMem(memory);
 
+        qDebug() << "EX CALL I5";
         break;
     case 6:
         SBUS = T;
@@ -1586,6 +1590,7 @@ void Cpu::call()
 
         decideNextPhase();
 
+        qDebug() << "EX CALL I6";
         break;
     default:
         qDebug() << "ERROR EX CALL";
@@ -1600,6 +1605,7 @@ void Cpu::pushRi()
         SP -= 2;
         emit SPchanged(true, SP);
 
+        qDebug() << "EX PUSH I1";
         break;
     case 2:
         SBUS = SP;
@@ -1612,6 +1618,7 @@ void Cpu::pushRi()
         ADR = RBUS;
         emit PmADR(true, ADR);
 
+        qDebug() << "EX PUSH I2";
         break;
     case 3:
         SBUS = R[IR & 0xff];
@@ -1624,6 +1631,7 @@ void Cpu::pushRi()
         MDR = RBUS;
         emit PmMDR(true, MDR);
 
+        qDebug() << "EX PUSH I3";
         break;
     case 4:
         memory[ADR] = MDR & 0xff;
@@ -1633,6 +1641,8 @@ void Cpu::pushRi()
         emit PmMem(memory);
 
         decideNextPhase();
+
+        qDebug() << "EX PUSH I4";
         break;
     default:
         qDebug() << "ERROR EX PUSH";
@@ -1654,12 +1664,14 @@ void Cpu::popRi()
         ADR = RBUS;
         emit PmADR(true, ADR);
 
+        qDebug() << "EX POP I1";
         break;
     case 2:
         MDR = (memory[ADR + 1] << 8) | memory[ADR];
         emit RD(true, "READ");
         emit PmMDR(true, MDR);
 
+        qDebug() << "EX POP I2";
         break;
     case 3: {
         DBUS = MDR;
@@ -1678,6 +1690,7 @@ void Cpu::popRi()
 
         decideNextPhase();
 
+        qDebug() << "EX POP I3";
         break;
     }
     default:
