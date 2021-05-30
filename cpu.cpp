@@ -1619,7 +1619,7 @@ void Cpu::pushRi()
         qDebug() << "EX PUSH I2";
         break;
     case 3:
-        SBUS = R[IR & 0xff];
+        SBUS = R[IR & 0xf];
         emit PdRGS(true);
 
         RBUS = SBUS;
@@ -1679,7 +1679,7 @@ void Cpu::popRi()
         emit ALU(true, false, true, "DBUS");
         emit PdALU(true);
 
-        u8 index = IR & 0xff;
+        u8 index = IR & 0xf;
         R[index] = RBUS;
         emit PmRG(true, index, R[index]);
 
