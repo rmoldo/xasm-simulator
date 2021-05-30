@@ -179,10 +179,10 @@ void MainWindow::createActions() {
     executeToolBar->addAction(runAction);
 
     // Interrupt action
-    interruptAction = new QAction(tr("&Interrupt"), this);
+    interruptAction = new QAction(tr("Trigger &IRQ"), this);
     interruptAction->setIcon(QPixmap(":/rec/resources/icons/interrupt.svg"));
     interruptAction->setShortcut(QKeySequence(tr("Ctrl+I")));
-    interruptAction->setStatusTip(tr("Enable interrupt"));
+    interruptAction->setStatusTip(tr("Trigger interrupt request"));
 
     connect(interruptAction, &QAction::triggered, this, [=](){
         cpu->setInterrupt();
