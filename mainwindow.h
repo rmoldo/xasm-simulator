@@ -3,9 +3,9 @@
 
 #include <QMainWindow>
 
-#include "memoryviewerdialog.h"
-#include "cpuwindow.h"
-#include "cpu.h"
+#include <memory-viewer/memoryviewerdialog.h>
+#include <arch-window/cpuwindow.h>
+#include <cpu/cpu.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

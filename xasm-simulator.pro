@@ -16,22 +16,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    arch-window/cpuwindow.cpp \
     assembler/XASMGenerator.cpp \
     assembler/lexer.cpp \
     assembler/parser.cpp \
     assembler/verifier.cpp \
-    cgb.cpp \
-    codeeditor.cpp \
-    cpu.cpp \
-    cpuwindow.cpp \
-    linenumberarea.cpp \
+    cgb/cgb.cpp \
+    cpu/cpu.cpp \
+    editor/codeeditor.cpp \
+    editor/linenumberarea.cpp \
+    editor/xasmhighlighter.cpp \
     main.cpp \
     mainwindow.cpp \
-    memoryviewer.cpp \
-    memoryviewerdialog.cpp \
-    xasmhighlighter.cpp
+    memory-viewer/memoryviewer.cpp \
+    memory-viewer/memoryviewerdialog.cpp
 
 HEADERS += \
+    arch-window/cpuwindow.h \
     assembler/XASMGenerator.h \
     assembler/defs.h \
     assembler/encoding.h \
@@ -39,20 +40,19 @@ HEADERS += \
     assembler/parser.h \
     assembler/token.h \
     assembler/verifier.h \
-    cgb.h \
-    codeeditor.h \
-    cpu.h \
-    cpuwindow.h \
-    linenumberarea.h \
+    cgb/cgb.h \
+    cpu/cpu.h \
+    editor/codeeditor.h \
+    editor/linenumberarea.h \
+    editor/xasmhighlighter.h \
     mainwindow.h \
-    memoryviewer.h \
-    memoryviewerdialog.h \
-    xasmhighlighter.h
+    memory-viewer/memoryviewer.h \
+    memory-viewer/memoryviewerdialog.h
 
 FORMS += \
-    cpuwindow.ui \
-    mainwindow.ui \
-    memoryviewerdialog.ui
+    Forms/cpuwindow.ui \
+    Forms/mainwindow.ui \
+    Forms/memoryviewerdialog.ui \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

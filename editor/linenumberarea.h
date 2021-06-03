@@ -2,7 +2,7 @@
 #define LINENUMBERAREA_H
 
 #include <QWidget>
-#include "codeeditor.h"
+#include <editor/codeeditor.h>
 
 class LineNumberArea : public QWidget
 {

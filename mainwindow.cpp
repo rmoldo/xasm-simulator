@@ -1,12 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <codeeditor.h>
+#include <editor/codeeditor.h>
 #include <QToolBar>
 #include <QProcess>
 #include <QMessageBox>
 
-#include "cpu.h"
+#include <cpu/cpu.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

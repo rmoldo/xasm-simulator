@@ -2,8 +2,8 @@
 #define MEMORYVIEWERDIALOG_H
 
 #include <QDialog>
-#include "cpu.h"
-#include "memoryviewer.h"
+#include <cpu/cpu.h>
+#include <memory-viewer/memoryviewer.h>
 
 namespace Ui {
 class MemoryViewerDialog;
