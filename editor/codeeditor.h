@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QPlainTextEdit>
 
-#include "xasmhighlighter.h"
+#include <editor/xasmhighlighter.h>
 
 class CodeEditor : public QPlainTextEdit
 {

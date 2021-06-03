@@ -1,4 +1,4 @@
-#include "memoryviewer.h"
+#include <memory-viewer/memoryviewer.h>
 
 #include <QPainter>
 #include <QScrollBar>

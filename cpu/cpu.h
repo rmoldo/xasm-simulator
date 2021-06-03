@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include "assembler/defs.h"
-#include <cgb.h>
+#include <cgb/cgb.h>
 
 enum AddressingModes {
        AM = 0x0,

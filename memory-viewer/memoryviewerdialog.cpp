@@ -1,4 +1,4 @@
-#include "memoryviewerdialog.h"
+#include <memory-viewer/memoryviewerdialog.h>
 #include "ui_memoryviewerdialog.h"
 
 MemoryViewerDialog::MemoryViewerDialog(QWidget *parent) :

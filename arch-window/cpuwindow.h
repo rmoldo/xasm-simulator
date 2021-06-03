@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QPainter>
-#include <cpu.h>
+#include <cpu/cpu.h>
 
 namespace Ui {
 class CPUwindow;

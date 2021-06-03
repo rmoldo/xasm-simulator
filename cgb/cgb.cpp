@@ -1,4 +1,4 @@
-#include "cgb.h"
+#include <cgb/cgb.h>
 
 CGB::CGB(QObject *parent) : QObject(parent)
 {
